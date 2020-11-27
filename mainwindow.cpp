@@ -143,7 +143,8 @@ void MainWindow::on_Supprimer_clicked()
        bool test=E1.supprimer(E1.get_ID());
        QMessageBox msgBox;
        if(test)
-           msgBox.setText("Suppression avec succes.");
+          { msgBox.setText("Suppression avec succes.");
+       ui->tableView->setModel(E.afficher());}
        else
            msgBox.setText("Echec de suppression");
            msgBox.exec();
