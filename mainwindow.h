@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "employe.h"
+#include "conge.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -35,9 +36,14 @@ private slots:
 
    void on_Quitter_clicked();
 
+   void on_Ajouter_conge_clicked();
+
+   void on_tableView_2_clicked(const QModelIndex &index);
+
 private:
    Ui::MainWindow *ui;
    Employe E;
+   conge C;
 };
 #endif // MAINWINDOW_H
 

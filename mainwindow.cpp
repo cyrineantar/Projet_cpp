@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "employe.h"
 #include <QMessageBox>
+#include <QMessageBox>
 #include <QIntValidator>
 #include <QSqlQuery>
 #include <iostream>
@@ -33,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->lineEdit_ID->setValidator(new QIntValidator(0, 9999999, this));
     ui->tableView->setModel(E.afficher());
-
+    ui->tableView_2->setModel(C.afficher_conge());
 }
 
 
@@ -78,7 +79,7 @@ void MainWindow::on_Ajouter_clicked()
 
 void MainWindow::on_Modifier_clicked()
 {
-     ui->tableView->setModel(E.afficher());
+        ui->tableView->setModel(E.afficher());
         ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
         int ID=ui->lineEdit_ID->text().toInt();
         QString Nom=ui->lineEdit_nom->text();
@@ -94,18 +95,18 @@ void MainWindow::on_Modifier_clicked()
 
         Employe E;
         bool test=E.modifier(ID, Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
-        QMessageBox msBox;
+        QMessageBox msgBox;
         if(test)
         {
             ui->tableView->setModel(E.afficher());
             ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-            msBox.setText("Modification réussite");
-            msBox.exec();
+            msgBox.setText("Modification réussite");
+            msgBox.exec();
         }
         else
         {
-            msBox.setText("ERREUR");
-            msBox.exec();
+            msgBox.setText("ERREUR");
+            msgBox.exec();
         }
 
 }
@@ -292,4 +293,52 @@ void MainWindow::on_Imprimer_clicked()
 void MainWindow::on_Quitter_clicked()
 {
     close();
+}
+
+
+void MainWindow::on_Ajouter_conge_clicked()
+{
+    int ID_conge=ui->lineEdit_id_conge->text().toInt();
+    int ID=ui->lineEdit_id_employe->text().toInt();
+    QString Date_debut=ui->lineEdit_datedebut->text();
+    QString Date_fin=ui->lineEdit_datefin->text();
+    QString Motif=ui->lineEdit_motif->text();
+    QString Type_conge=ui->lineEdit_typeconge->text();
+
+    conge C(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge);
+
+            bool test=C.ajouter_conge();
+            QMessageBox MsgBox;
+
+             if (test)
+             {
+                 MsgBox.setText("Ajout avec succès.");
+                 ui->tableView_2->setModel(C.afficher_conge());
+             }
+             else
+             {
+                 MsgBox.setText("échec au niveau de l ajout");
+             }
+                 MsgBox.exec();
+}
+
+void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
+{
+    QString val=ui->tableView_2->model()->data(index).toString();
+    QSqlQuery qry;
+        qry.prepare("select * from CONGE where ID_conge='"+val+"'  " );
+
+        if(qry.exec())
+        {
+            while(qry.next())
+            {
+                ui->lineEdit_id_conge->setText(qry.value(0).toString());
+                ui->lineEdit_ID->setText(qry.value(1).toString());
+                ui->lineEdit_datedebut->setText(qry.value(2).toString());
+                ui->lineEdit_datefin->setText(qry.value(3).toString());
+                ui->lineEdit_motif->setText(qry.value(4).toString());
+                ui->lineEdit_typeconge->setText(qry.value(5).toString());
+
+            }
+        }
 }

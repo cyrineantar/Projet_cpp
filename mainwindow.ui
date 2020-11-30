@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="gestiondesemployes">
      <attribute name="title">
@@ -288,21 +288,46 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_Etatcivil">
+      <widget class="QComboBox" name="comboBox1">
        <property name="geometry">
         <rect>
-         <x>150</x>
-         <y>310</y>
-         <width>113</width>
-         <height>20</height>
+         <x>280</x>
+         <y>260</y>
+         <width>111</width>
+         <height>22</height>
         </rect>
        </property>
+       <item>
+        <property name="text">
+         <string>Marié(e)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>celibataire</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>divorcé(e)</string>
+        </property>
+       </item>
       </widget>
       <widget class="QLineEdit" name="lineEdit_Date">
        <property name="geometry">
         <rect>
          <x>150</x>
          <y>180</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_Etatcivil">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>310</y>
          <width>113</width>
          <height>20</height>
         </rect>
@@ -506,7 +531,7 @@
         <x>10</x>
         <y>20</y>
         <width>401</width>
-        <height>431</height>
+        <height>471</height>
        </rect>
       </property>
       <property name="title">
@@ -535,7 +560,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Date/Heure demandée</string>
+        <string>Date début</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_16">
@@ -548,7 +573,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Nombre de jours</string>
+        <string>Date fin</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_17">
@@ -564,72 +589,7 @@
         <string>Type de congé</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_2">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>270</y>
-         <width>121</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <item>
-        <property name="text">
-         <string>Annuel</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Sans solde</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Maladie</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Maternité</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Paternité</string>
-        </property>
-       </item>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_3">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>180</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_4">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>80</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QDateTimeEdit" name="dateTimeEdit">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>130</y>
-         <width>121</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_9">
+      <widget class="QPushButton" name="Ajouter_conge">
        <property name="geometry">
         <rect>
          <x>310</x>
@@ -655,7 +615,7 @@
         <string>Motif</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="lineEdit_motif">
        <property name="geometry">
         <rect>
          <x>140</x>
@@ -665,30 +625,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLabel" name="label_18">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>330</y>
-         <width>111</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Pièce jointe du motif</string>
-       </property>
-      </widget>
-      <widget class="QListView" name="listView">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>310</y>
-         <width>121</width>
-         <height>71</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_6">
+      <widget class="QLineEdit" name="lineEdit_id_conge">
        <property name="geometry">
         <rect>
          <x>140</x>
@@ -709,6 +646,46 @@
        </property>
        <property name="text">
         <string>identifiant du congé</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_id_employe">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>80</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_datedebut">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>130</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_datefin">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>180</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_typeconge">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>270</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
        </property>
       </widget>
      </widget>
@@ -919,6 +896,42 @@
       </property>
       <property name="text">
        <string>Quitter</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Parcourir">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>500</y>
+        <width>91</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Parcourir</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="listView">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>520</y>
+        <width>71</width>
+        <height>61</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>530</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pièce jointe du motif</string>
       </property>
      </widget>
     </widget>
