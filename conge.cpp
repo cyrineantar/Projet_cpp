@@ -33,10 +33,10 @@ int conge::get_ID_conge(){return ID_conge;}
 bool conge::ajouter_conge()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO CONGE(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge)"
-                  "VALUES (:ID_conge, :ID, :Date_debut, :Date_fin, :Motif, :Type_conge)");
+    query.prepare("INSERT INTO CONGE(ID_conge, ID_employe, Date_debut, Date_fin, Motif, Type_conge)"
+                  "VALUES (:ID_conge, :ID_employe, :Date_debut, :Date_fin, :Motif, :Type_conge)");
     query.bindValue(":ID_conge",ID_conge);
-    query.bindValue(":ID",ID);
+    query.bindValue(":ID_employe",ID);
     query.bindValue(":Date_debut",Date_debut);
     query.bindValue(":Date_fin",Date_fin);
     query.bindValue(":Motif",Motif);

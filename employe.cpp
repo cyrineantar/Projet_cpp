@@ -57,7 +57,6 @@ bool Employe::ajouter()
     query.bindValue(":Etat_civil",Etat_civil);
     query.bindValue(":Nationalite",Nationalite);
 
-
     return query.exec();
 }
 
@@ -77,9 +76,23 @@ bool Employe::supprimer(int ID)
 
     return query.exec();
 }
-bool Employe::modifier(int ID,QString Nom,QString Prenom,QString Courriel,int Num_tel,QString Date_n,QString Adresse,QString Fonction,int Salaire,QString Etat_civil,QString Nationalite)
+bool Employe::modifier()
 {
     QSqlQuery query;
-    query.prepare("update EMPLOYE set Nom= '"+Nom+"' , Prenom= '"+Prenom+"', Courriel= '"+Courriel+"',Num_tel= '"+Num_tel+"',Date_n= '"+Date_n+"', Adresse= '"+Adresse+"',Fonction= '"+Fonction+"',Salaire= '"+Salaire+"' Etat_civil= '"+Etat_civil+"', Nationalite= '"+Nationalite+"' where ID= '"+ID+"' ");
-          return query.exec();
+    query.prepare("UPDATE EMPLOYE SET  NOM=:nomN, PRENOM =:prenomN, COURRIEL =: courr"
+                  ",NUM_TEL=: numTel, DATE_N =:date, ADRESSE =: adr, FONCTION =:fonct, SALAIRE =:sal, ETAT_CIVIL =:etat, NATIONALITE =:nat"
+                  "WHERE ID=:id");
+
+    //query.bindValue(":id",ID);
+    query.bindValue(":nomN",Nom);
+    query.bindValue(":prenomN",Prenom);
+    query.bindValue(":courr",Courriel);
+    query.bindValue(":numTel",Num_tel);
+    query.bindValue(":date",Date_n);
+    query.bindValue(":adr",Adresse);
+    query.bindValue(":fonct",Fonction);
+    query.bindValue(":sal",Salaire);
+    query.bindValue(":etat",Etat_civil);
+    query.bindValue(":nat",Nationalite);
+return query.exec();
 }

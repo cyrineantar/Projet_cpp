@@ -648,26 +648,6 @@
         <string>identifiant du congé</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_id_employe">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>80</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_datedebut">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>130</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="lineEdit_datefin">
        <property name="geometry">
         <rect>
@@ -685,6 +665,26 @@
          <y>270</y>
          <width>113</width>
          <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_emplo">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>80</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDateEdit" name="lineEdit_datedebut">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>130</y>
+         <width>121</width>
+         <height>22</height>
         </rect>
        </property>
       </widget>

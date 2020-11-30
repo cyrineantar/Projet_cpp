@@ -35,6 +35,28 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_ID->setValidator(new QIntValidator(0, 9999999, this));
     ui->tableView->setModel(E.afficher());
     ui->tableView_2->setModel(C.afficher_conge());
+    remplir_cb_employID();
+
+
+}
+
+
+void MainWindow::remplir_cb_employID()
+{
+
+    QSqlQuery qry;
+    qry.prepare("SELECT id FROM EMPLOYE");
+
+    if(qry.exec())
+    {
+        while(qry.next())
+        {
+            ui->comboBox_emplo->addItem(qry.value(0).toString());
+
+        }
+    }
+
+
 }
 
 
@@ -69,6 +91,8 @@ void MainWindow::on_Ajouter_clicked()
                {
                    msgBox.setText("Ajout avec succès.");
                    ui->tableView->setModel(E.afficher());
+                   ui->comboBox_emplo->clear();
+                   remplir_cb_employID();
                }
                else
                {
@@ -79,8 +103,6 @@ void MainWindow::on_Ajouter_clicked()
 
 void MainWindow::on_Modifier_clicked()
 {
-        ui->tableView->setModel(E.afficher());
-        ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
         int ID=ui->lineEdit_ID->text().toInt();
         QString Nom=ui->lineEdit_nom->text();
         QString Prenom=ui->lineEdit_prenom->text();
@@ -93,8 +115,8 @@ void MainWindow::on_Modifier_clicked()
         QString Etat_civil=ui->lineEdit_Etatcivil->text();
         QString Nationalite=ui->lineEdit_nationalite->text();
 
-        Employe E;
-        bool test=E.modifier(ID, Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+        Employe E(ID,Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+        bool test=E.modifier();
         QMessageBox msgBox;
         if(test)
         {
@@ -113,9 +135,11 @@ void MainWindow::on_Modifier_clicked()
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
+
     QString val=ui->tableView->model()->data(index).toString();
     QSqlQuery qry;
-        qry.prepare("select * from EMPLOYE where ID='"+val+"'  " );
+        qry.prepare("select * from EMPLOYE where ID=:val");
+        qry.bindValue(":val",val);
 
         if(qry.exec())
         {
@@ -145,7 +169,10 @@ void MainWindow::on_Supprimer_clicked()
        QMessageBox msgBox;
        if(test)
           { msgBox.setText("Suppression avec succes.");
-       ui->tableView->setModel(E.afficher());}
+       ui->tableView->setModel(E.afficher());
+       ui->comboBox_emplo->clear();
+       remplir_cb_employID();
+       }
        else
            msgBox.setText("Echec de suppression");
            msgBox.exec();
@@ -160,7 +187,7 @@ void MainWindow::on_Rechercher_clicked()
     QSqlQueryModel *model = new QSqlQueryModel();
         int ID;
         ID=ui->lineEdit_id_rech->text().toInt();
-        model->setQuery("SELECT * FROM EMPLOYE where ID='ID'");
+        model->setQuery("SELECT * FROM EMPLOYE where ID=:ID");
         model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
         model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom "));
         model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prenom"));
@@ -299,7 +326,7 @@ void MainWindow::on_Quitter_clicked()
 void MainWindow::on_Ajouter_conge_clicked()
 {
     int ID_conge=ui->lineEdit_id_conge->text().toInt();
-    int ID=ui->lineEdit_id_employe->text().toInt();
+    int ID=ui->comboBox_emplo->currentText().toInt();
     QString Date_debut=ui->lineEdit_datedebut->text();
     QString Date_fin=ui->lineEdit_datefin->text();
     QString Motif=ui->lineEdit_motif->text();
@@ -326,15 +353,22 @@ void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
 {
     QString val=ui->tableView_2->model()->data(index).toString();
     QSqlQuery qry;
-        qry.prepare("select * from CONGE where ID_conge='"+val+"'  " );
+        qry.prepare("Select * from CONGE where ID_conge='"+val+"'  " );
 
         if(qry.exec())
         {
             while(qry.next())
             {
                 ui->lineEdit_id_conge->setText(qry.value(0).toString());
-                ui->lineEdit_ID->setText(qry.value(1).toString());
-                ui->lineEdit_datedebut->setText(qry.value(2).toString());
+                int i=0;
+                ui->comboBox_emplo->setCurrentIndex(0);
+                while(qry.value(1).toString()!= ui->comboBox_emplo->currentText())
+                {
+                    i++;
+                    ui->comboBox_emplo->setCurrentIndex(i);
+
+                }
+                ui->lineEdit_datedebut-> setDate(QDate::fromString(qry.value(2).toString(),"dd/MM/yyyy"));
                 ui->lineEdit_datefin->setText(qry.value(3).toString());
                 ui->lineEdit_motif->setText(qry.value(4).toString());
                 ui->lineEdit_typeconge->setText(qry.value(5).toString());

@@ -40,10 +40,13 @@ private slots:
 
    void on_tableView_2_clicked(const QModelIndex &index);
 
+   void remplir_cb_employID();
+
 private:
    Ui::MainWindow *ui;
    Employe E;
    conge C;
+
 };
 #endif // MAINWINDOW_H
 
