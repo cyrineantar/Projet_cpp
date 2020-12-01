@@ -42,6 +42,12 @@ private slots:
 
    void remplir_cb_employID();
 
+   void on_Supprimer_conge_clicked();
+
+   void on_Tri_conge_clicked();
+
+   void on_Modifier_conge_clicked();
+
 private:
    Ui::MainWindow *ui;
    Employe E;

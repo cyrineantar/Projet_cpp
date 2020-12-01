@@ -54,3 +54,27 @@ QSqlQueryModel* conge::afficher_conge()
 
     return model;
 }
+bool conge::supprimer_conge(int)
+{
+      QSqlQuery query;
+    query.prepare("Delete from CONGE where ID_conge=:ID_conge");
+    query.bindValue(0,ID_conge);
+
+    return query.exec();
+}
+bool conge::modifier_conge()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE CONGE SET  ID_CONGE =:id, ID =:ide, DATE_DEBUT =: dated"
+                  ",DATE_FIN =: datef,MOTIF =:motif , TYPE_CONGE =: type"
+                  "WHERE ID_CONGE=:id");
+
+    query.bindValue(":id",ID_conge);
+    query.bindValue(":ide",ID);
+    query.bindValue(":dated",Date_debut);
+    query.bindValue(":datef",Date_fin);
+    query.bindValue(":motif",Motif);
+    query.bindValue(":type",Type_conge);
+
+return query.exec();
+}

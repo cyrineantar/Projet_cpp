@@ -288,48 +288,38 @@
         </rect>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox1">
+      <widget class="QComboBox" name="lineEdit_Etatcivil">
        <property name="geometry">
         <rect>
-         <x>280</x>
-         <y>260</y>
+         <x>150</x>
+         <y>310</y>
          <width>111</width>
          <height>22</height>
         </rect>
        </property>
        <item>
         <property name="text">
-         <string>Marié(e)</string>
+         <string>Marie(e)</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>celibataire</string>
+         <string>Celibataire</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>divorcé(e)</string>
+         <string>Divorce(e)</string>
         </property>
        </item>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_Date">
+      <widget class="QDateEdit" name="lineEdit_Date">
        <property name="geometry">
         <rect>
          <x>150</x>
          <y>180</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_Etatcivil">
-       <property name="geometry">
-        <rect>
-         <x>150</x>
-         <y>310</y>
-         <width>113</width>
-         <height>20</height>
+         <width>111</width>
+         <height>22</height>
         </rect>
        </property>
       </widget>
@@ -648,26 +638,6 @@
         <string>identifiant du congé</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_datefin">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>180</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_typeconge">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>270</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QComboBox" name="comboBox_emplo">
        <property name="geometry">
         <rect>
@@ -687,6 +657,51 @@
          <height>22</height>
         </rect>
        </property>
+      </widget>
+      <widget class="QDateEdit" name="lineEdit_datefin">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>180</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="lineEdit_typeconge">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>270</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Annuel</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Sans solde</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Maladie</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Maternite</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Paternite</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_7">
@@ -760,7 +775,7 @@
         <string>Rechercher</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="Tri_2">
+      <widget class="QPushButton" name="Tri_conge">
        <property name="geometry">
         <rect>
          <x>360</x>
@@ -780,17 +795,17 @@
         <x>420</x>
         <y>350</y>
         <width>481</width>
-        <height>151</height>
+        <height>121</height>
        </rect>
       </property>
       <property name="title">
        <string>Supprimer un congé</string>
       </property>
-      <widget class="QPushButton" name="Supprimer_2">
+      <widget class="QPushButton" name="Supprimer_conge">
        <property name="geometry">
         <rect>
-         <x>310</x>
-         <y>110</y>
+         <x>270</x>
+         <y>80</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -812,7 +827,7 @@
         <string>id de congé</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="le_id_suppr_2">
+      <widget class="QLineEdit" name="le_id_conge_suppr">
        <property name="geometry">
         <rect>
          <x>110</x>
@@ -822,31 +837,8 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_5">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>80</y>
-         <width>131</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_11">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>75</y>
-         <width>81</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Date de congé</string>
-       </property>
-      </widget>
      </widget>
-     <widget class="QPushButton" name="Modifier_2">
+     <widget class="QPushButton" name="Modifier_conge">
       <property name="geometry">
        <rect>
         <x>470</x>

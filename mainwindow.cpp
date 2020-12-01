@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEdit_ID->setValidator(new QIntValidator(0, 9999999, this));
+    ui->lineEdit_salaire->setValidator(new QIntValidator(0, 99999999, this));
+    ui->lineEdit_numtelephone->setValidator(new QIntValidator(0, 99999999, this));
+    ui->lineEdit_id_conge->setValidator(new QIntValidator(0, 9999999, this));
     ui->tableView->setModel(E.afficher());
     ui->tableView_2->setModel(C.afficher_conge());
     remplir_cb_employID();
@@ -79,7 +82,7 @@ void MainWindow::on_Ajouter_clicked()
       QString Adresse=ui->lineEdit_adresse->text();
       QString Fonction=ui->lineEdit_fonction->text();
       int Salaire=ui->lineEdit_salaire->text().toInt();
-      QString Etat_civil=ui->lineEdit_Etatcivil->text();
+      QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
       QString Nationalite=ui->lineEdit_nationalite->text();
 
       Employe E(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
@@ -112,7 +115,7 @@ void MainWindow::on_Modifier_clicked()
         QString Adresse=ui->lineEdit_adresse->text();
         QString Fonction=ui->lineEdit_fonction->text();
         int Salaire=ui->lineEdit_salaire->text().toInt();
-        QString Etat_civil=ui->lineEdit_Etatcivil->text();
+        QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
         QString Nationalite=ui->lineEdit_nationalite->text();
 
         Employe E(ID,Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
@@ -150,11 +153,11 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
                 ui->lineEdit_prenom->setText(qry.value(2).toString());
                 ui->lineEdit_courriel->setText(qry.value(3).toString());
                 ui->lineEdit_numtelephone->setText(qry.value(4).toString());
-                ui->lineEdit_Date->setText(qry.value(5).toString());
+                ui->lineEdit_Date->setDate(QDate::fromString(qry.value(5).toString()));
                 ui->lineEdit_adresse->setText(qry.value(6).toString());
                 ui->lineEdit_fonction->setText(qry.value(7).toString());
                 ui->lineEdit_salaire->setText(qry.value(8).toString());
-                ui->lineEdit_Etatcivil->setText(qry.value(9).toString());
+                ui->lineEdit_Etatcivil->setCurrentText(qry.value(9).toString());
                 ui->lineEdit_nationalite->setText(qry.value(10).toString());
 
 
@@ -183,9 +186,9 @@ void MainWindow::on_Supprimer_clicked()
 
 void MainWindow::on_Rechercher_clicked()
 {
+    int ID;
     QMessageBox msgBox ;
     QSqlQueryModel *model = new QSqlQueryModel();
-        int ID;
         ID=ui->lineEdit_id_rech->text().toInt();
         model->setQuery("SELECT * FROM EMPLOYE where ID=:ID");
         model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
@@ -216,11 +219,11 @@ void MainWindow::on_Rechercher_clicked()
                 ui->lineEdit_prenom->setText(qry.value(2).toString());
                 ui->lineEdit_courriel->setText(qry.value(3).toString());
                 ui->lineEdit_numtelephone->setText(qry.value(4).toString());
-                ui->lineEdit_Date->setText(qry.value(5).toString());
+                ui->lineEdit_Date->setDate(QDate::fromString(qry.value(5).toString()));
                 ui->lineEdit_adresse->setText(qry.value(6).toString());
                 ui->lineEdit_fonction->setText(qry.value(7).toString());
                 ui->lineEdit_salaire->setText(qry.value(8).toString());
-                ui->lineEdit_Etatcivil->setText(qry.value(9).toString());
+                ui->lineEdit_Etatcivil->setCurrentText(qry.value(9).toString());
                 ui->lineEdit_nationalite->setText(qry.value(10).toString());
             }
         }
@@ -330,7 +333,7 @@ void MainWindow::on_Ajouter_conge_clicked()
     QString Date_debut=ui->lineEdit_datedebut->text();
     QString Date_fin=ui->lineEdit_datefin->text();
     QString Motif=ui->lineEdit_motif->text();
-    QString Type_conge=ui->lineEdit_typeconge->text();
+    QString Type_conge=ui->lineEdit_typeconge->currentText();
 
     conge C(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge);
 
@@ -353,7 +356,7 @@ void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
 {
     QString val=ui->tableView_2->model()->data(index).toString();
     QSqlQuery qry;
-        qry.prepare("Select * from CONGE where ID_conge='"+val+"'  " );
+        qry.prepare("Select * from CONGE where ID_conge=:val  " );
 
         if(qry.exec())
         {
@@ -369,10 +372,71 @@ void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
 
                 }
                 ui->lineEdit_datedebut-> setDate(QDate::fromString(qry.value(2).toString(),"dd/MM/yyyy"));
-                ui->lineEdit_datefin->setText(qry.value(3).toString());
+                ui->lineEdit_datefin->setDate(QDate::fromString(qry.value(3).toString(),"dd/MM/yyyy"));
                 ui->lineEdit_motif->setText(qry.value(4).toString());
-                ui->lineEdit_typeconge->setText(qry.value(5).toString());
+                ui->lineEdit_typeconge->setCurrentText(qry.value(5).toString());
 
             }
         }
+}
+
+void MainWindow::on_Supprimer_conge_clicked()
+{
+    conge C1;
+    C1.setID_conge(ui->le_id_conge_suppr->text().toInt());
+       bool test=C1.supprimer_conge(C1.get_ID_conge());
+       QMessageBox msgBox;
+       if(test)
+          { msgBox.setText("Suppression avec succes.");
+       ui->tableView_2->setModel(C.afficher_conge());
+       }
+       else
+           msgBox.setText("Echec de suppression");
+           msgBox.exec();
+}
+
+void MainWindow::on_Tri_conge_clicked()
+{
+    QMessageBox msgBox ;
+
+    QSqlQueryModel *model = new QSqlQueryModel();
+             model->setQuery("SELECT * FROM CONGE order by ID_conge ASC");
+             model->setQuery("SELECT * FROM CONGE order by ID ASC");
+             model->setQuery("SELECT * FROM CONGE order by Type_conge ASC");
+             model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID_conge"));
+             model->setHeaderData(1, Qt::Horizontal, QObject::tr("ID"));
+             model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_debut"));
+             model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date_fin"));
+             model->setHeaderData(4, Qt::Horizontal, QObject::tr("Motif"));
+             model->setHeaderData(5, Qt::Horizontal, QObject::tr("Type_conge"));
+
+             ui->tableView_2->setModel(model);
+             ui->tableView_2->show();
+             msgBox.setText("Tri avec succès.");
+             msgBox.exec();
+}
+
+void MainWindow::on_Modifier_conge_clicked()
+{
+    int ID_conge=ui->lineEdit_id_conge->text().toInt();
+    int ID=ui->comboBox_emplo->currentText().toInt();
+    QString Date_debut=ui->lineEdit_datedebut->text();
+    QString Date_fin=ui->lineEdit_datefin->text();
+    QString Motif=ui->lineEdit_motif->text();
+    QString Type_conge=ui->lineEdit_typeconge->currentText();
+    conge C(ID_conge,ID,Date_debut,Date_fin,Motif,Type_conge);
+    bool test=C.modifier_conge();
+    QMessageBox msgBox;
+    if(test)
+    {
+        ui->tableView_2->setModel(C.afficher_conge());
+        ui->tableView_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        msgBox.setText("Modification réussite");
+        msgBox.exec();
+    }
+    else
+    {
+        msgBox.setText("ERREUR");
+        msgBox.exec();
+    }
 }

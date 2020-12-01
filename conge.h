@@ -25,6 +25,8 @@ public:
 
        bool ajouter_conge();
        QSqlQueryModel* afficher_conge();
+       bool supprimer_conge(int);
+       bool modifier_conge();
     ~conge(){}
 
 private:
