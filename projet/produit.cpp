@@ -2,7 +2,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QMessageBox>
-
+ 
 Produit::Produit()
 {
     Quantite=0;
