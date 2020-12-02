@@ -211,26 +211,21 @@ void MainWindow::on_Supprimer_clicked()
 
 void MainWindow::on_Tri_clicked()
 {
-    QMessageBox msgBox ;
-
-    QSqlQueryModel *model = new QSqlQueryModel();
-             model->setQuery("SELECT * FROM EMPLOYE order by ID ASC");
-             model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
-             model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom "));
-             model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prenom"));
-             model->setHeaderData(3, Qt::Horizontal, QObject::tr("Courriel"));
-             model->setHeaderData(4, Qt::Horizontal, QObject::tr("Num_tel"));
-             model->setHeaderData(5, Qt::Horizontal, QObject::tr("Date_n"));
-             model->setHeaderData(6, Qt::Horizontal, QObject::tr("Adresse"));
-             model->setHeaderData(7, Qt::Horizontal, QObject::tr("Fonction"));
-             model->setHeaderData(8, Qt::Horizontal, QObject::tr("Salaire"));
-             model->setHeaderData(9, Qt::Horizontal, QObject::tr("Etat_civil"));
-             model->setHeaderData(10, Qt::Horizontal, QObject::tr("Natioanlite"));
-             ui->tableView->setModel(model);
-             ui->tableView->show();
-             msgBox.setText("Tri avec succès.");
-             msgBox.exec();
+    Employe E;
+    if (ui->comboBox_tri->currentText()=="ID")
+    {
+        ui->tableView->setModel(E.tri_ID());
+    }
+    else if (ui->comboBox_tri->currentText()=="Nom")
+    {
+        ui->tableView->setModel(E.tri_nom());
+    }
+    else
+    {
+        ui->tableView->setModel(E.tri_prenom());
+    }
 }
+
 
 
 void MainWindow::on_Pdf_clicked()
@@ -497,79 +492,33 @@ void MainWindow::on_Rechercher_2_clicked()
 
 }
 
-
-void MainWindow::on_tableView_recherche_clicked(const QModelIndex &index)
-{
-    QString val=ui->tableView->model()->data(index).toString();
-    QSqlQuery qry;
-        qry.prepare("select * from EMPLOYE where ID=:val");
-        qry.bindValue(":val",val);
-
-        if(qry.exec())
-        {
-            while(qry.next())
-            {
-                ui->lineEdit_ID->setText(qry.value(0).toString());
-                ui->lineEdit_nom->setText(qry.value(1).toString());
-                ui->lineEdit_prenom->setText(qry.value(2).toString());
-                ui->lineEdit_courriel->setText(qry.value(3).toString());
-                ui->lineEdit_numtelephone->setText(qry.value(4).toString());
-                ui->lineEdit_Date->setDate(QDate::fromString(qry.value(5).toString()));
-                ui->lineEdit_adresse->setText(qry.value(6).toString());
-                ui->lineEdit_fonction->setText(qry.value(7).toString());
-                ui->lineEdit_salaire->setText(qry.value(8).toString());
-                ui->lineEdit_Etatcivil->setCurrentText(qry.value(9).toString());
-                ui->lineEdit_nationalite->setText(qry.value(10).toString());
-
-
-            }
-        }
-}
-
-
 void MainWindow::on_Rechercher_clicked()
 {
-    Employe E1;
-    E1.setID(ui->lineEdit_id_rech->text().toInt());
-    QMessageBox msgBox ;
-    QSqlQueryModel *model = new QSqlQueryModel();
-
-        model->setQuery("SELECT * FROM EMPLOYE where ID=:ID");
-        model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
-        model->setHeaderData(1, Qt::Horizontal, QObject::tr("Nom "));
-        model->setHeaderData(2, Qt::Horizontal, QObject::tr("Prenom"));
-        model->setHeaderData(3, Qt::Horizontal, QObject::tr("Courriel"));
-        model->setHeaderData(4, Qt::Horizontal, QObject::tr("Num_tel"));
-        model->setHeaderData(5, Qt::Horizontal, QObject::tr("Date_n"));
-        model->setHeaderData(6, Qt::Horizontal, QObject::tr("Adresse"));
-        model->setHeaderData(7, Qt::Horizontal, QObject::tr("Fonction"));
-        model->setHeaderData(8, Qt::Horizontal, QObject::tr("Salaire"));
-        model->setHeaderData(9, Qt::Horizontal, QObject::tr("Etat_civil"));
-        model->setHeaderData(10, Qt::Horizontal, QObject::tr("Natioanlite"));
-        ui->tableView->setModel(model);
-        ui->tableView->show();
-        msgBox.setText("Employé trouvé.");
-        msgBox.exec();
-        ui->lineEdit_id_rech->clear();
-        QSqlQuery qry;
-        qry.prepare("SELECT * FROM EMPLOYE where ID=:ID");
-
-        if(qry.exec())
+        Employe E;
+        if (ui->comboBox_recherche->currentText()=="ID")
         {
-            while(qry.next())
+            int ID=ui->le_rech->text().toInt();
+            if (E.recherche_ID(ID))
             {
-                ui->lineEdit_ID->setText(qry.value(0).toString());
-                ui->lineEdit_nom->setText(qry.value(1).toString());
-                ui->lineEdit_prenom->setText(qry.value(2).toString());
-                ui->lineEdit_courriel->setText(qry.value(3).toString());
-                ui->lineEdit_numtelephone->setText(qry.value(4).toString());
-                ui->lineEdit_Date->setDate(QDate::fromString(qry.value(5).toString()));
-                ui->lineEdit_adresse->setText(qry.value(6).toString());
-                ui->lineEdit_fonction->setText(qry.value(7).toString());
-                ui->lineEdit_salaire->setText(qry.value(8).toString());
-                ui->lineEdit_Etatcivil->setCurrentText(qry.value(9).toString());
-                ui->lineEdit_nationalite->setText(qry.value(10).toString());
+                ui->tableView->setModel(E.afficher_ID(ID));
             }
         }
+        else if(ui->comboBox_recherche->currentText()=="Nom")
+        {
+            QString nom=ui->le_rech->text();
+            if (E.recherche_nom(nom))
+            {
+                ui->tableView->setModel(E.afficher_nom(nom));
+            }
 
-}
+        }
+        else
+        {
+            QString prenom=ui->le_rech->text();
+            if(E.recherche_prenom(prenom))
+            {
+                ui->tableView->setModel(E.afficher_prenom(prenom));
+            }
+        }
+    }
+

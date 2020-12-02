@@ -62,9 +62,6 @@ private slots:
 
    void on_Rechercher_2_clicked();
 
-   void on_tableView_recherche_clicked(const QModelIndex &index);
-
-
 
 private:
    Ui::MainWindow *ui;

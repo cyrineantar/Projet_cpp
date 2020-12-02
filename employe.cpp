@@ -143,4 +143,116 @@ QSqlQueryModel * Employe::rechercher(int ID, QString Nom, QString Prenom)
 
 
    }
+QSqlQueryModel* Employe::tri_ID()
+{
+    QSqlQueryModel* model=new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM EMPLOYE ORDER BY ID ASC");
+
+    return model;
+}
+
+QSqlQueryModel* Employe::tri_nom()
+{
+    QSqlQueryModel* model=new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM EMPLOYE ORDER BY NOM ASC");
+
+    return model;
+}
+
+QSqlQueryModel* Employe::tri_prenom()
+{
+    QSqlQueryModel* model=new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM EMPLOYE ORDER BY PRENOM ASC");
+
+    return model;
+}
+bool Employe::recherche_prenom(QString Prenom)
+{
+    QMessageBox msgBox;
+    QSqlQuery query;
+
+    query.prepare("SELECT * FROM EMPLOYE WHERE PRENOM= :prenom");
+    query.bindValue(":prenom", Prenom);
+    if (query.exec() && query.next())
+    {
+            return true;
+
+    }
+    else
+    {
+
+        msgBox.setText("Non existant");
+        msgBox.exec();
+        return false;
+    }
+}
+bool Employe::recherche_nom(QString Nom)
+{
+    QMessageBox msgBox;
+    QSqlQuery query;
+
+    query.prepare("SELECT * FROM EMPLOYE WHERE NOM= :nom");
+    query.bindValue(":nom", Nom);
+    if (query.exec() && query.next())
+    {
+            return true;
+
+    }
+    else
+    {
+
+        msgBox.setText("Non existant");
+        msgBox.exec();
+        return false;
+    }
+}
+bool Employe::recherche_ID(int ID)
+{
+
+    QMessageBox msgBox;
+    QSqlQuery query;
+     QString ID_string=QString::number(ID);
+    query.prepare("SELECT * FROM EMPLOYE WHERE ID=:id");
+    query.bindValue(":id", ID_string);
+    if (query.exec() && query.next())
+    {
+            return true;
+
+    }
+    else
+    {
+
+        msgBox.setText("non existant");
+        msgBox.exec();
+        return false;
+    }
+}
+QSqlQueryModel* Employe::afficher_nom(QString nom)
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+
+          model->setQuery("SELECT * FROM EMPLOYE WHERE NOM='"+nom+"'");
+
+    return model;
+}
+QSqlQueryModel* Employe::afficher_prenom(QString prenom)
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+
+          model->setQuery("SELECT * FROM EMPLOYE WHERE PRENOM='"+prenom+"'");
+
+    return model;
+}
+QSqlQueryModel* Employe::afficher_ID(int ID)
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+     QString ID_string=QString::number(ID);
+
+          model->setQuery("SELECT * FROM EMPLOYE WHERE ID=:'"+ID_string+"");
+
+    return model;
+}
 
