@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include "employe.h"
 #include "conge.h"
+#include <QTableView>
+#include <QComboBox>
+#include <QSortFilterProxyModel>
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -48,10 +53,24 @@ private slots:
 
    void on_Modifier_conge_clicked();
 
+
+   void on_Pdf_conge_clicked();
+
+   void on_Imprimer_conge_clicked();
+
+   void on_Quitter_2_clicked();
+
+   void on_Rechercher_2_clicked();
+
+   void on_tableView_recherche_clicked(const QModelIndex &index);
+
+
+
 private:
    Ui::MainWindow *ui;
    Employe E;
    conge C;
+
 
 };
 #endif // MAINWINDOW_H

@@ -62,7 +62,7 @@ bool conge::supprimer_conge(int)
 
     return query.exec();
 }
-bool conge::modifier_conge()
+bool conge::modifier_conge(int,int,QString,QString,QString,QString)
 {
     QSqlQuery query;
     query.prepare("UPDATE CONGE SET  ID_CONGE =:id, ID =:ide, DATE_DEBUT =: dated"

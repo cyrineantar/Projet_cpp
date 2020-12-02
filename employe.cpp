@@ -5,6 +5,7 @@
 #include<QtSql/QSqlQuery>
 #include<QVariant>
 #include <QtSql/QSqlQueryModel>
+#include <QMessageBox>
 
 Employe::Employe()
 {
@@ -76,23 +77,70 @@ bool Employe::supprimer(int ID)
 
     return query.exec();
 }
-bool Employe::modifier()
+bool Employe::modifier(int,QString,QString,QString,int,QString,QString,QString,int,QString,QString)
 {
     QSqlQuery query;
-    query.prepare("UPDATE EMPLOYE SET  NOM=:nomN, PRENOM =:prenomN, COURRIEL =: courr"
-                  ",NUM_TEL=: numTel, DATE_N =:date, ADRESSE =: adr, FONCTION =:fonct, SALAIRE =:sal, ETAT_CIVIL =:etat, NATIONALITE =:nat"
-                  "WHERE ID=:id");
+    query.prepare("UPDATE EMPLOYE SET  ID =:id, NOM=:Nom, PRENOM =:Prenom, COURRIEL=:Courriel,NUM_TEL=:Num_tel, DATE_N =:Date_n, ADRESSE=:Adresse, FONCTION=:Fonction, SALAIRE=:Salaire, ETAT_CIVIL=:Etat_civil, NATIONALITE=:Nationalite where ID=:id");
 
-    //query.bindValue(":id",ID);
-    query.bindValue(":nomN",Nom);
-    query.bindValue(":prenomN",Prenom);
-    query.bindValue(":courr",Courriel);
-    query.bindValue(":numTel",Num_tel);
-    query.bindValue(":date",Date_n);
-    query.bindValue(":adr",Adresse);
-    query.bindValue(":fonct",Fonction);
-    query.bindValue(":sal",Salaire);
-    query.bindValue(":etat",Etat_civil);
-    query.bindValue(":nat",Nationalite);
+    query.bindValue(":id",ID);
+    query.bindValue(":Nom",Nom);
+    query.bindValue(":Prenom",Prenom);
+    query.bindValue(":Courriel",Courriel);
+    query.bindValue(":Num_tel",Num_tel);
+    query.bindValue(":Date_n",Date_n);
+    query.bindValue(":Adresse",Adresse);
+    query.bindValue(":Fonction",Fonction);
+    query.bindValue(":Salaire",Salaire);
+    query.bindValue(":Etat_civil",Etat_civil);
+    query.bindValue(":Nationalite",Nationalite);
 return query.exec();
 }
+
+QSqlQueryModel * Employe::rechercher(int ID, QString Nom, QString Prenom)
+   {
+
+       QMessageBox msgBox;
+       QMessageBox msgBox1;
+
+       QSqlQueryModel *model = new QSqlQueryModel;
+       QSqlQuery query;
+       int count=0;
+
+
+       model->setQuery("SELECT * FROM EMPLOYE WHERE ID= ? and Nom= ? and Prenom= ?");
+       query.addBindValue(ID);
+       query.addBindValue(Nom);
+       query.addBindValue(Prenom);
+
+
+
+       if(query.exec() )
+
+       {
+   while (query.next())
+      {
+      count ++;
+   }
+   if(count==1)
+      {
+       msgBox.setText("Employe existe");
+       msgBox.exec();
+       model->setQuery(query);
+   }
+
+   else if (count<1)
+   {
+       msgBox1.setText("Employe n'existe pas");
+           msgBox1.exec();
+           model=0;
+   }
+
+       }
+
+
+
+       return model;
+
+
+   }
+
