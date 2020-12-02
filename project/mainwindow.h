@@ -15,8 +15,31 @@ public:
 private slots:
     void on_pb_ajouter_clicked();
     void on_pb_supprimer_clicked();
+    void on_pb_ajoutercommande_clicked();
+
+    void on_tabfournisseur_activated();
+
+    void on_pb_modifier_2_clicked();
+
+    void on_le_recherche_textChanged(const QString &arg1);
+
+    void on_tabfournisseur_clicked(const QModelIndex &index);
+
+    void on_pb_supprimer_2_clicked();
+
+    void on_le_recherche_2_textChanged(const QString &arg1);
+
+    void on_tabachat_clicked(const QModelIndex &index);
+
+    void on_pb_modifier_5_clicked();
+
+    void on_tabachat_activated();
+
 private:
     Ui::MainWindow *ui;
     fournisseur f;
+
+    QString fournisseurSelect;
+    int achatselect;
 };
 #endif // MAINWINDOW_H

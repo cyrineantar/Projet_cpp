@@ -2,6 +2,7 @@
 #include <QSqlQuery>
 #include <QtDebug>
 #include <QObject>
+#include <QModelIndex>
 fournisseur::fournisseur()
 {
     numero=0; rib=0; nom=""; matricule=""; produit=""; adresse=""; date="";
@@ -31,7 +32,7 @@ bool fournisseur::ajouter()
   QString rib_string=QString::number(rib);
 
   query.prepare("INSERT INTO fournisseur (numero,rib,nom,matricule,produit,adresse,date_ajout) "
-                "VALUES (:numero,:rib,:nom,:matricule,:produit,:adresse,:date_ajout)");
+                "VALUES (:numero,:rib,:nom,:matricule,:produit,:adresse,:date)");
   query.bindValue(":numero", numero_string);
   query.bindValue(":rib", rib_string);
   query.bindValue(":nom", nom);
@@ -48,28 +49,36 @@ bool fournisseur::ajouter()
 }
 bool fournisseur::supprimer(QString matricule)
 {
-    QSqlQuery query;
-         query.prepare(" Delete from fournisseur where matricule=matricule");
+        QSqlQuery query;
+        query.prepare("select * from fournisseur where matricule=:matricule");
+        query.bindValue(0, matricule);
+        query.exec();
+        if (query.next())
+        {
+         query.prepare(" Delete from fournisseur where matricule=:matricule");
          query.bindValue(0, matricule);
 
-        return query.exec();
+                query.exec();
+             return true;
 
+        }
+
+         return false;
 
 }
 QSqlQueryModel* fournisseur::afficher()
 {
   QSqlQueryModel* model=new QSqlQueryModel();
-
-
-   model->setQuery("SELECT* FROM fournisseur");
-   model->setHeaderData(0, Qt::Horizontal, QObject::tr("Nom"));
-   model->setHeaderData(1, Qt::Horizontal, QObject::tr("Matricule"));
-   model->setHeaderData(2, Qt::Horizontal, QObject::tr("Produit"));
-   model->setHeaderData(3, Qt::Horizontal, QObject::tr("Adresse"));
-   model->setHeaderData(4, Qt::Horizontal, QObject::tr("Numero"));
-   model->setHeaderData(5, Qt::Horizontal, QObject::tr("Rib"));
-   model->setHeaderData(6, Qt::Horizontal, QObject::tr("Date"));
-
+  model->setQuery("SELECT* FROM fournisseur");
 
   return  model;
+}
+
+QSqlQueryModel* fournisseur::rechercher(QString colone,QString text)
+{
+     QSqlQueryModel* model=new QSqlQueryModel();
+
+     model->setQuery("SELECT * FROM FOURNISSEUR WHERE UPPER("+colone+") LIKE UPPER('"+text+"%')");
+
+     return model;
 }

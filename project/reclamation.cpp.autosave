@@ -1,0 +1,75 @@
+#include "reclamation.h"
+#include <QSqlQuery>
+#include <QtDebug>
+#include <QObject>
+reclamation::reclamation()
+{
+    quantite=0; num_commande=0; date=""; produit=""; fournisseur=""; description=""; prix="";
+}
+
+reclamation::reclamation(int num_commande,int quantite,QString date,QString produit,QString description,QString prix,QString fournisseur)
+{this->num_commande=num_commande; this->quantite=quantite; this->date=date;this->produit=produit;this->description=description;this->prix=prix;this->fournisseur=fournisseur;}
+int reclamation:: getnum_commande(){return num_commande;}
+int reclamation::getquantite(){return quantite;}
+QString reclamation:: getprix(){return prix;}
+QString reclamation:: getdescription(){return description;}
+QString reclamation::getproduit(){return produit;}
+QString reclamation:: getfournisseur (){return fournisseur;}
+QString reclamation::getdate() {return date;}
+void reclamation:: setnum_commande(int num_commande) {this->num_commande=num_commande;}
+void reclamation:: setquantite(int quantite) {this->quantite=quantite;}
+void reclamation:: setprix(QString prix) {this->prix=prix;}
+void reclamation:: setfournisseur(QString fournisseur){this->fournisseur=fournisseur;}
+void reclamation:: setproduit(QString produit){this->produit=produit;}
+void reclamation:: setdescription(QString description){this->description= description;}
+void reclamation:: setdate(QString date){this->date=date;}
+bool reclamation::ajouter()
+{
+
+    QSqlQuery query;
+  QString num_commande_string= QString::number(num_commande);
+  QString quantite_string=QString::number(quantite);
+
+  query.prepare("INSERT INTO fournisseur (numero,rib,nom,matricule,produit,adresse,date_ajout) "
+                "VALUES (:numero,:rib,:nom,:matricule,:produit,:adresse,:date_ajout)");
+  query.bindValue(":numero", numero_string);
+  query.bindValue(":rib", rib_string);
+  query.bindValue(":nom", nom);
+
+
+
+  query.bindValue(":matricule",matricule);
+  query.bindValue(":adresse", adresse);
+  query.bindValue(":produit", produit);
+  query.bindValue(":date", date);
+
+        return query.exec();
+
+}
+bool fournisseur::supprimer(QString matricule)
+{
+    QSqlQuery query;
+         query.prepare(" Delete from fournisseur where matricule=matricule");
+         query.bindValue(0, matricule);
+
+        return query.exec();
+
+
+}
+QSqlQueryModel* fournisseur::afficher()
+{
+  QSqlQueryModel* model=new QSqlQueryModel();
+
+
+   model->setQuery("SELECT* FROM fournisseur");
+   model->setHeaderData(0, Qt::Horizontal, QObject::tr("Nom"));
+   model->setHeaderData(1, Qt::Horizontal, QObject::tr("Matricule"));
+   model->setHeaderData(2, Qt::Horizontal, QObject::tr("Produit"));
+   model->setHeaderData(3, Qt::Horizontal, QObject::tr("Adresse"));
+   model->setHeaderData(4, Qt::Horizontal, QObject::tr("Numero"));
+   model->setHeaderData(5, Qt::Horizontal, QObject::tr("Rib"));
+   model->setHeaderData(6, Qt::Horizontal, QObject::tr("Date"));
+
+
+  return  model;
+}

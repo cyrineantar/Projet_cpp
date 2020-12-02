@@ -23,6 +23,8 @@ class fournisseur
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(QString);
+    QSqlQueryModel* rechercher(QString,QString);
+
 private:
     int rib,numero;
     QString nom,matricule,produit,adresse,date;
