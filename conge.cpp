@@ -5,6 +5,7 @@
 #include<QtSql/QSqlQuery>
 #include<QVariant>
 #include <QtSql/QSqlQueryModel>
+#include <QMessageBox>
 
 conge::conge()
 {
@@ -77,4 +78,63 @@ bool conge::modifier_conge(int,int,QString,QString,QString,QString)
     query.bindValue(":type",Type_conge);
 
 return query.exec();
+}
+
+bool conge::recherche_ID_conge(int ID_conge)
+{
+    QMessageBox msgBox;
+    QSqlQuery query;
+     QString ID_conge_string=QString::number(ID_conge);
+    query.prepare("SELECT * FROM CONGE WHERE ID_conge=:ID_conge");
+    query.bindValue(":ID_conge", ID_conge_string);
+    if (query.exec() && query.next())
+    {
+            return true;
+
+    }
+    else
+    {
+
+        msgBox.setText("Non existant");
+        msgBox.exec();
+        return false;
+    }
+}
+QSqlQueryModel* conge::afficher_ID_conge(int ID_conge)
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+     QString ID_conge_string=QString::number(ID_conge);
+
+          model->setQuery("SELECT * FROM CONGE WHERE ID_conge=:'"+ID_conge_string+"");
+
+    return model;
+}
+
+bool conge::recherche_Type_conge(QString Type_conge)
+{
+    QMessageBox msgBox;
+    QSqlQuery query;
+
+    query.prepare("SELECT * FROM CONGE WHERE Type_conge=:Type_conge");
+    query.bindValue(":Type_conge", Type_conge);
+    if (query.exec() && query.next())
+    {
+            return true;
+
+    }
+    else
+    {
+
+        msgBox.setText("Non existant");
+        msgBox.exec();
+        return false;
+    }
+}
+QSqlQueryModel* conge::afficher_Type_conge(QString Type_conge)
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+
+          model->setQuery("SELECT * FROM CONGE WHERE Type_conge=:'"+Type_conge+"");
+
+    return model;
 }

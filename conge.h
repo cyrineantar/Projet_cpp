@@ -27,6 +27,12 @@ public:
        QSqlQueryModel* afficher_conge();
        bool supprimer_conge(int);
        bool modifier_conge(int,int,QString,QString,QString,QString);
+       bool recherche_ID_conge(int ID_conge);
+       QSqlQueryModel* afficher_ID_conge(int ID_conge);
+       bool recherche_Type_conge(QString Type_conge);
+       QSqlQueryModel* afficher_Type_conge(QString Type_conge);
+
+
     ~conge(){}
 
 private:

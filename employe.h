@@ -35,7 +35,7 @@ public:
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(int);
-    bool modifier(int,QString,QString,QString,int,QString,QString,QString,int,QString,QString);
+    bool modifier(int);
     QSqlQueryModel* rechercher(int,QString,QString);
     QSqlQueryModel* tri_nom();
     QSqlQueryModel* tri_prenom();

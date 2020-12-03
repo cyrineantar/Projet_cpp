@@ -63,6 +63,8 @@ private slots:
    void on_Rechercher_2_clicked();
 
 
+   void on_Rechercher_conge_clicked();
+
 private:
    Ui::MainWindow *ui;
    Employe E;

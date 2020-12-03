@@ -121,43 +121,31 @@ void MainWindow::on_Ajouter_clicked()
 
 void MainWindow::on_Modifier_clicked()
 {
+
+    QMessageBox msg;
         int ID=ui->lineEdit_ID->text().toInt();
-        QString Nom=ui->lineEdit_nom->text();
-        QString Prenom=ui->lineEdit_prenom->text();
-        QString Courriel=ui->lineEdit_courriel->text();
-        int Num_tel=ui->lineEdit_numtelephone->text().toInt();
-        QString Date_n=ui->lineEdit_Date->text();
-        QString Adresse=ui->lineEdit_adresse->text();
-        QString Fonction=ui->lineEdit_fonction->text();
-        int Salaire=ui->lineEdit_salaire->text().toInt();
-        QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
-        QString Nationalite=ui->lineEdit_nationalite->text();
-          QMessageBox msg;
-
-        bool test=E.modifier(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
-
-
+             QString Nom=ui->lineEdit_nom->text();
+             QString Prenom=ui->lineEdit_prenom->text();
+             QString Courriel=ui->lineEdit_courriel->text();
+             int Num_tel=ui->lineEdit_numtelephone->text().toInt();
+             QString Date_n=ui->lineEdit_Date->text();
+             QString Adresse=ui->lineEdit_adresse->text();
+             QString Fonction=ui->lineEdit_fonction->text();
+             int Salaire=ui->lineEdit_salaire->text().toInt();
+             QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
+             QString Nationalite=ui->lineEdit_nationalite->text();
+        Employe E(ID,Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+      bool test=E.modifier(ID);
         if(test)
         {
-            ui->lineEdit_ID->clear();
-            ui->lineEdit_nom->clear();
-            ui->lineEdit_prenom->clear();
-            ui->lineEdit_courriel->clear();
-            ui->lineEdit_numtelephone->clear();
-            ui->lineEdit_adresse->clear();
-            ui->lineEdit_fonction->clear();
-            ui->lineEdit_salaire->clear();
-            ui->lineEdit_nationalite->clear();
-
-            ui->tableView->setModel(E.afficher());
             msg.setText("Modification avec succès");
-
-         }
-        else
-        {
-            msg.setText("Echec de modification");
+            ui->tableView->setModel(E.afficher());
         }
+        else
+            msg.setText("Echec de modification");
+
         msg.exec();
+
 }
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
@@ -487,10 +475,6 @@ void MainWindow::on_Quitter_2_clicked()
     close();
 }
 
-void MainWindow::on_Rechercher_2_clicked()
-{
-
-}
 
 void MainWindow::on_Rechercher_clicked()
 {
@@ -522,3 +506,34 @@ void MainWindow::on_Rechercher_clicked()
         }
     }
 
+
+void MainWindow::on_Rechercher_conge_clicked()
+{
+    conge C;
+    if (ui->comboBox_recherche_conge->currentText()=="ID_conge")
+    {
+        int ID_conge=ui->le_rech_2->text().toInt();
+        if (C.recherche_ID_conge(ID_conge))
+        {
+            ui->tableView_2->setModel(C.afficher_ID_conge(ID_conge));
+        }
+    }
+    else if(ui->comboBox_recherche_conge->currentText()=="Type_conge")
+    {
+        QString Type_conge=ui->le_rech_2->text();
+        if (C.recherche_Type_conge(Type_conge))
+        {
+            ui->tableView_2->setModel(C.afficher_Type_conge(Type_conge));
+        }
+
+    }
+    else
+    {
+        QString prenom=ui->le_rech->text();
+        if(E.recherche_prenom(prenom))
+        {
+            ui->tableView->setModel(E.afficher_prenom(prenom));
+        }
+    }
+
+}

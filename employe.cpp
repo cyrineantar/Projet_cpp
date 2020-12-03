@@ -77,23 +77,32 @@ bool Employe::supprimer(int ID)
 
     return query.exec();
 }
-bool Employe::modifier(int,QString,QString,QString,int,QString,QString,QString,int,QString,QString)
+bool Employe::modifier(int)
 {
-    QSqlQuery query;
-    query.prepare("UPDATE EMPLOYE SET  ID =:id, NOM=:Nom, PRENOM =:Prenom, COURRIEL=:Courriel,NUM_TEL=:Num_tel, DATE_N =:Date_n, ADRESSE=:Adresse, FONCTION=:Fonction, SALAIRE=:Salaire, ETAT_CIVIL=:Etat_civil, NATIONALITE=:Nationalite where ID=:id");
 
-    query.bindValue(":id",ID);
-    query.bindValue(":Nom",Nom);
-    query.bindValue(":Prenom",Prenom);
-    query.bindValue(":Courriel",Courriel);
-    query.bindValue(":Num_tel",Num_tel);
-    query.bindValue(":Date_n",Date_n);
-    query.bindValue(":Adresse",Adresse);
-    query.bindValue(":Fonction",Fonction);
-    query.bindValue(":Salaire",Salaire);
-    query.bindValue(":Etat_civil",Etat_civil);
-    query.bindValue(":Nationalite",Nationalite);
-return query.exec();
+        QSqlQuery query;
+        QString ID_string=QString::number(ID);
+        QString Num_tel_string=QString::number(Num_tel);
+        QString Salaire_string=QString::number(Salaire);
+
+
+              query.prepare("UPDATE CLIENT SET ID=:id, NOM=:Nom, PRENOM=:Prenom, COURRIEL=:Courriel,"
+                            "NUM_TEL=:Num_tel, DATE_N=:Date_n, ADRESSE=:Adresse, FONCTION=:Fonction,"
+                            "SALAIRE=:Salaire, ETAT_CIVIL=:Etat_civil, NATIONALITE=:Nationalite"
+                            "WHERE ID=:id");
+              query.bindValue(":id",ID);
+              query.bindValue(":Nom",Nom);
+              query.bindValue(":Prenom",Prenom);
+              query.bindValue(":Courriel",Courriel);
+              query.bindValue(":Num_tel",Num_tel);
+              query.bindValue(":Date_n",Date_n);
+              query.bindValue(":Adresse",Adresse);
+              query.bindValue(":Fonction",Fonction);
+              query.bindValue(":Salaire",Salaire);
+              query.bindValue(":Etat_civil",Etat_civil);
+              query.bindValue(":Nationalite",Nationalite);
+              return query.exec();
+
 }
 
 QSqlQueryModel * Employe::rechercher(int ID, QString Nom, QString Prenom)
@@ -255,4 +264,5 @@ QSqlQueryModel* Employe::afficher_ID(int ID)
 
     return model;
 }
+
 
