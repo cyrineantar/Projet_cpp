@@ -3,29 +3,33 @@
 #include<QString>
 #include <QString>
 #include <QSqlQueryModel>
+#include <QMediaPlayer>
 
 
 class machine
 {
 public:
-    machine(QString,QString,QString,QString,QString);
+    machine(QString,QString,QString,QString);
     void setcode(QString n);
     void setdate(QString n);
-    void settype(QString n);
+    void setfonctionnement(QString n);
     void setpuissance(QString n);
-    void setconsommation(QString n);
+
     QString get_code();
     QString get_date();
-    QString get_type();
+    QString get_fonctionnement();
     QString get_puissance();
-    QString get_consommation();
+
     QSqlQueryModel* afficher();
+    QSqlQueryModel* tri(QString,QString);
     bool supprimer(QString);
     bool ajouter();
+    bool modifier(QString,QString, QString,QString);
+    QSqlQueryModel* rechercher(QString,QString);
     machine();
 
 private:
-    QString code,date,type,puissance,consommation;
+    QString code,date,fonctionnement,puissance,colone,ordre;
 };
 
 #endif // MACHINE_H

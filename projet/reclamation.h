@@ -19,7 +19,11 @@ public:
     QSqlQueryModel* afficher();
     bool supprimer(QString);
     bool ajouter();
-    bool modifier(QString);
+    bool modifier(QString,QString, QString);
+    QSqlQueryModel* rechercher(QString,QString);
+    QSqlQueryModel* tri(QString,QString);
+
+
 
 private:
     QString date_panne,cause_panne,codeM;
