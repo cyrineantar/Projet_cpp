@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "fournisseur.h"
+#include"achat.h"
+#include  <QSound>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -35,11 +37,25 @@ private slots:
 
     void on_tabachat_activated();
 
+    void on_tri_clicked();
+
+    void on_pushButton_clicked();
+
+
+    void on_PDF_clicked();
+
+    void on_tri_fournisseur_clicked();
+
+    void on_imprimer_fournisseur_clicked();
+
+    void on_pdf_clicked();
+
 private:
     Ui::MainWindow *ui;
     fournisseur f;
-
+    achat a;
     QString fournisseurSelect;
     int achatselect;
+      QSound *son;
 };
 #endif // MAINWINDOW_H

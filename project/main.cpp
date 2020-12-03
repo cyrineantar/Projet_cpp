@@ -4,12 +4,17 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "connexion.h"
+#include <QFile>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Connexion c;
     bool test=c.ouvrirConnexion();
     MainWindow w;
+    QFile styleSheetFile(":/styleSheet/Integrid.qss");
+             styleSheetFile.open(QFile::ReadOnly);
+             QString styleSheet = QLatin1String(styleSheetFile.readAll());
+             a.setStyleSheet(styleSheet);
          if(test)
          {
 

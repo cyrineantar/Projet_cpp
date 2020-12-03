@@ -82,3 +82,10 @@ QSqlQueryModel* fournisseur::rechercher(QString colone,QString text)
 
      return model;
 }
+QSqlQueryModel*  fournisseur::tri(QString colone, QString ordre)
+
+{
+    QSqlQueryModel* model=new QSqlQueryModel();
+    model->setQuery("select * from fournisseur order by "+colone+" "+ordre+"");
+    return model;
+}

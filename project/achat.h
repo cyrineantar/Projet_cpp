@@ -10,7 +10,7 @@ public:
     int getquantite();
     int getnum_commande();
     QString getprix();
-    QString getdate();
+    QString getdate_achat();
     QString getproduit();
     QString getdescription ();
     QString getfournisseur() ;
@@ -20,11 +20,15 @@ public:
     void setproduit(QString);
     void setfournisseur(QString);
     void setdescription(QString);
-    void setdate(QString);
+    void setdate_achat(QString);
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(int);
     QSqlQueryModel* rechercher(QString,QString);
+    bool modifier();
+    QSqlQueryModel* tri(QString,QString);
+
+
 
 private:
     int num_commande,quantite;

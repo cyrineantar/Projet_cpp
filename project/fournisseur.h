@@ -24,6 +24,8 @@ class fournisseur
     QSqlQueryModel* afficher();
     bool supprimer(QString);
     QSqlQueryModel* rechercher(QString,QString);
+    QSqlQueryModel* tri(QString,QString);
+
 
 private:
     int rib,numero;
