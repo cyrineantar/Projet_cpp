@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     if(test)
     {
         w.show();
-
-
+        QTextToSpeech * m_speech =new QTextToSpeech();
+                    m_speech->say("La base des données est ouverte avec succès");
         QMessageBox::critical(nullptr, QObject::tr("database is open"),
                     QObject::tr("connection successful.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);

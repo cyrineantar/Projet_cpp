@@ -7,6 +7,7 @@
 #include <QTableView>
 #include <QComboBox>
 #include <QSortFilterProxyModel>
+#include <QRegularExpression>
 
 
 QT_BEGIN_NAMESPACE
@@ -60,15 +61,13 @@ private slots:
 
    void on_Quitter_2_clicked();
 
-   void on_Rechercher_2_clicked();
-
-
    void on_Rechercher_conge_clicked();
 
 private:
    Ui::MainWindow *ui;
    Employe E;
    conge C;
+   QRegExp MRE ;
 
 
 };

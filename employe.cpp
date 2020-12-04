@@ -77,7 +77,7 @@ bool Employe::supprimer(int ID)
 
     return query.exec();
 }
-bool Employe::modifier(int)
+bool Employe::modifier(int ID,QString Nom,QString Prenom,QString Courriel,int Num_tel,QString Date_n,QString Adresse,QString Fonction,int Salaire,QString Etat_civil,QString Nationalite)
 {
 
         QSqlQuery query;
@@ -85,22 +85,22 @@ bool Employe::modifier(int)
         QString Num_tel_string=QString::number(Num_tel);
         QString Salaire_string=QString::number(Salaire);
 
-
               query.prepare("UPDATE CLIENT SET ID=:id, NOM=:Nom, PRENOM=:Prenom, COURRIEL=:Courriel,"
                             "NUM_TEL=:Num_tel, DATE_N=:Date_n, ADRESSE=:Adresse, FONCTION=:Fonction,"
                             "SALAIRE=:Salaire, ETAT_CIVIL=:Etat_civil, NATIONALITE=:Nationalite"
                             "WHERE ID=:id");
-              query.bindValue(":id",ID);
+              query.bindValue(":id",ID_string);
               query.bindValue(":Nom",Nom);
               query.bindValue(":Prenom",Prenom);
               query.bindValue(":Courriel",Courriel);
-              query.bindValue(":Num_tel",Num_tel);
+              query.bindValue(":Num_tel",Num_tel_string);
               query.bindValue(":Date_n",Date_n);
               query.bindValue(":Adresse",Adresse);
               query.bindValue(":Fonction",Fonction);
-              query.bindValue(":Salaire",Salaire);
+              query.bindValue(":Salaire",Salaire_string);
               query.bindValue(":Etat_civil",Etat_civil);
               query.bindValue(":Nationalite",Nationalite);
+
               return query.exec();
 
 }
@@ -218,14 +218,14 @@ bool Employe::recherche_nom(QString Nom)
         return false;
     }
 }
-bool Employe::recherche_ID(int ID)
+bool Employe::recherche_Fonction(QString Fonction)
 {
 
     QMessageBox msgBox;
     QSqlQuery query;
-     QString ID_string=QString::number(ID);
-    query.prepare("SELECT * FROM EMPLOYE WHERE ID=:id");
-    query.bindValue(":id", ID_string);
+    query.prepare("SELECT * FROM EMPLOYE WHERE Fonction=:Fonction");
+    query.bindValue(":Fonction", Fonction);
+
     if (query.exec() && query.next())
     {
             return true;
@@ -234,7 +234,7 @@ bool Employe::recherche_ID(int ID)
     else
     {
 
-        msgBox.setText("non existant");
+        msgBox.setText("Non existant");
         msgBox.exec();
         return false;
     }
@@ -255,12 +255,11 @@ QSqlQueryModel* Employe::afficher_prenom(QString prenom)
 
     return model;
 }
-QSqlQueryModel* Employe::afficher_ID(int ID)
+QSqlQueryModel* Employe::afficher_Fonction(QString Fonction)
 {
     QSqlQueryModel* model= new QSqlQueryModel();
-     QString ID_string=QString::number(ID);
 
-          model->setQuery("SELECT * FROM EMPLOYE WHERE ID=:'"+ID_string+"");
+          model->setQuery("SELECT * FROM EMPLOYE WHERE Fonction=:'"+Fonction+"");
 
     return model;
 }

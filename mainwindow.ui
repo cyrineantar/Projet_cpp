@@ -17,8 +17,8 @@
    <widget class="QTabWidget" name="TabWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
+      <x>0</x>
+      <y>0</y>
       <width>931</width>
       <height>751</height>
      </rect>
@@ -261,6 +261,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
+       </property>
        <property name="text">
         <string>Ajouter</string>
        </property>
@@ -381,6 +384,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
+       </property>
        <property name="text">
         <string>Supprimer</string>
        </property>
@@ -430,6 +436,9 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
+       </property>
        <property name="text">
         <string>Rechercher</string>
        </property>
@@ -445,17 +454,17 @@
        </property>
        <item>
         <property name="text">
-         <string>ID</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
          <string>Nom</string>
         </property>
        </item>
        <item>
         <property name="text">
          <string>Prenom</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Fonction</string>
         </property>
        </item>
       </widget>
@@ -565,11 +574,37 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
+       </property>
        <property name="text">
         <string>Tri</string>
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>931</width>
+        <height>731</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>label_11</zorder>
+     <zorder>groupBox</zorder>
+     <zorder>Quitter</zorder>
+     <zorder>Imprimer</zorder>
+     <zorder>groupBox_3</zorder>
+     <zorder>groupBox_6</zorder>
+     <zorder>Pdf</zorder>
+     <zorder>Modifier</zorder>
+     <zorder>groupBox_4</zorder>
+     <zorder>groupBox_5</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -581,8 +616,11 @@
         <x>10</x>
         <y>20</y>
         <width>401</width>
-        <height>471</height>
+        <height>411</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string>Ajouter un congé</string>
@@ -642,11 +680,14 @@
       <widget class="QPushButton" name="Ajouter_conge">
        <property name="geometry">
         <rect>
-         <x>310</x>
-         <y>390</y>
+         <x>290</x>
+         <y>320</y>
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
        </property>
        <property name="text">
         <string>Ajouter</string>
@@ -763,42 +804,6 @@
         </property>
        </item>
       </widget>
-      <widget class="QListView" name="listView">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>340</y>
-         <width>71</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="Parcourir">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>320</y>
-         <width>91</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Parcourir</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_18">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>300</y>
-         <width>111</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Pièce jointe du motif</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_9">
       <property name="geometry">
@@ -808,6 +813,9 @@
         <width>481</width>
         <height>131</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string>Supprimer un congé</string>
@@ -820,6 +828,9 @@
          <width>75</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
        </property>
        <property name="text">
         <string>Supprimer</string>
@@ -858,6 +869,9 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(170, 0, 0);</string>
+      </property>
       <property name="text">
        <string>Modifier</string>
       </property>
@@ -870,6 +884,9 @@
         <width>75</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(170, 0, 0);</string>
       </property>
       <property name="text">
        <string>PDF</string>
@@ -884,6 +901,9 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(170, 0, 0);</string>
+      </property>
       <property name="text">
        <string>Imprimer</string>
       </property>
@@ -897,6 +917,9 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(170, 0, 0);</string>
+      </property>
       <property name="text">
        <string>Quitter</string>
       </property>
@@ -905,10 +928,13 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>500</y>
+        <y>440</y>
         <width>891</width>
-        <height>201</height>
+        <height>221</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string>Liste des congés</string>
@@ -919,7 +945,7 @@
          <x>20</x>
          <y>21</y>
          <width>861</width>
-         <height>171</height>
+         <height>191</height>
         </rect>
        </property>
       </widget>
@@ -932,6 +958,9 @@
         <width>471</width>
         <height>141</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="title">
        <string>Rechercher un congé</string>
@@ -980,11 +1009,36 @@
          <height>23</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(170, 0, 0);</string>
+       </property>
        <property name="text">
         <string>Rechercher</string>
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>-1</y>
+        <width>921</width>
+        <height>731</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <zorder>label_18</zorder>
+     <zorder>groupBox_2</zorder>
+     <zorder>groupBox_9</zorder>
+     <zorder>Modifier_conge</zorder>
+     <zorder>Pdf_conge</zorder>
+     <zorder>Imprimer_conge</zorder>
+     <zorder>Quitter_2</zorder>
+     <zorder>groupBox_7</zorder>
+     <zorder>groupBox_10</zorder>
     </widget>
    </widget>
   </widget>

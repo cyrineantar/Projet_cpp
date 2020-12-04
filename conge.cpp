@@ -34,7 +34,7 @@ int conge::get_ID_conge(){return ID_conge;}
 bool conge::ajouter_conge()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO CONGE(ID_conge, ID_employe, Date_debut, Date_fin, Motif, Type_conge)"
+    query.prepare("INSERT INTO CONGE(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge)"
                   "VALUES (:ID_conge, :ID_employe, :Date_debut, :Date_fin, :Motif, :Type_conge)");
     query.bindValue(":ID_conge",ID_conge);
     query.bindValue(":ID_employe",ID);
@@ -115,8 +115,8 @@ bool conge::recherche_Type_conge(QString Type_conge)
     QMessageBox msgBox;
     QSqlQuery query;
 
-    query.prepare("SELECT * FROM CONGE WHERE Type_conge=:Type_conge");
-    query.bindValue(":Type_conge", Type_conge);
+    query.prepare("SELECT * FROM CONGE WHERE Type_conge=:Typeconge");
+    query.bindValue(":Typeconge", Type_conge);
     if (query.exec() && query.next())
     {
             return true;

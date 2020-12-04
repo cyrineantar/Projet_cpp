@@ -33,22 +33,28 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-
+    MRE=QRegExp("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
+    QPixmap pix7("C:/Users/Cyrine/Desktop/MyProject/ressource/usine.jpg");
+                 int w7 = ui->label_11->width();
+                 int h7 = ui->label_11->height();
+                 ui->label_11->setPixmap(pix7.scaled(w7,h7,Qt::IgnoreAspectRatio));
+                 int w8 = ui->label_18->width();
+                 int h8 = ui->label_18->height();
+                 ui->label_18->setPixmap(pix7.scaled(w8,h8,Qt::IgnoreAspectRatio));
 
     //controle de saisie:
-    QRegExp n("[a-zA-Z0-9_]*");
-    QValidator *validator =new QRegExpValidator(n, this);
-    ui->lineEdit_ID->setValidator(new QIntValidator(0, 9999999, this));
+    //QRegExp n("[a-zA-Z0-9_]*");
+    //QValidator *validator =new QRegExpValidator(n, this);
+    ui->lineEdit_ID->setValidator(new QIntValidator(0, 99999999, this));
     ui->lineEdit_salaire->setValidator(new QIntValidator(0, 99999999, this));
     ui->lineEdit_numtelephone->setValidator(new QIntValidator(0, 99999999, this));
     ui->lineEdit_id_conge->setValidator(new QIntValidator(0, 9999999, this));
-    ui->lineEdit_nom->setValidator(validator);
-    ui->lineEdit_prenom->setValidator(validator);
-    ui->lineEdit_courriel->setValidator(validator);
-    ui->lineEdit_adresse->setValidator(validator);
-    ui->lineEdit_fonction->setValidator(validator);
-    ui->lineEdit_nationalite->setValidator(validator);
+    //ui->lineEdit_nom->setValidator(validator);
+    //ui->lineEdit_prenom->setValidator(validator);
+    //ui->lineEdit_courriel->setValidator(validator);
+    //ui->lineEdit_adresse->setValidator(validator);
+    //ui->lineEdit_fonction->setValidator(validator);
+    //ui->lineEdit_nationalite->setValidator(validator);
 
     ui->tableView->setModel(E.afficher());
     ui->tableView_2->setModel(C.afficher_conge());
@@ -101,45 +107,99 @@ void MainWindow::on_Ajouter_clicked()
       QString Nationalite=ui->lineEdit_nationalite->text();
 
       Employe E(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+bool verifier = MRE.exactMatch(ui->lineEdit_courriel->text());
+
+
+if (        ui->lineEdit_ID->text()!= "" &&
+        ui->lineEdit_nom->text()!="" &&
+        ui->lineEdit_prenom->text()!="" &&
+        ui->lineEdit_courriel->text()!= "" &&
+        ui->lineEdit_numtelephone->text()!= "" &&
+        ui->lineEdit_Date->text()!= "" &&
+        ui->lineEdit_adresse->text()!= "" &&
+        ui->lineEdit_fonction->text()!= "" &&
+        ui->lineEdit_salaire->text()!= "" &&
+        ui->lineEdit_Etatcivil->currentText()!="" &&
+        ui->lineEdit_nationalite->text() != "" )
+{
+    if (!verifier)
+
+        {
+            QMessageBox::warning(nullptr, QObject::tr("Ajouter client"),
+                        QObject::tr("Vérifier E-mail ! .\n"
+                                    "Click Cancel to exit."), QMessageBox::Cancel);
+        }
+        else
+        {
+        int ID=ui->lineEdit_ID->text().toInt();
+        QString Nom=ui->lineEdit_nom->text();
+        QString Prenom=ui->lineEdit_prenom->text();
+        QString Courriel=ui->lineEdit_courriel->text();
+        int Num_tel=ui->lineEdit_numtelephone->text().toInt();
+        QString Date_n=ui->lineEdit_Date->text();
+        QString Adresse=ui->lineEdit_adresse->text();
+        QString Fonction=ui->lineEdit_fonction->text();
+        int Salaire=ui->lineEdit_salaire->text().toInt();
+        QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
+        QString Nationalite=ui->lineEdit_nationalite->text();
+        Employe E(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
 
               bool test=E.ajouter();
-              QMessageBox msgBox;
 
                if (test)
                {
-                   msgBox.setText("Ajout avec succès.");
+
                    ui->tableView->setModel(E.afficher());
                    ui->comboBox_emplo->clear();
                    remplir_cb_employID();
-               }
-               else
-               {
-                   msgBox.setText("échec au niveau de l ajout");
-               }
-                   msgBox.exec();
-}
+                   QMessageBox::information(nullptr, QObject::tr("Ajouter client"),
+                                           QObject::tr("client ajouté.\n"
+                                                       "Click Cancel to exit."), QMessageBox::Cancel);
+                           }
+                           else
+                           {
+                               QMessageBox::information(nullptr, QObject::tr("Ajouter client"),
+                                           QObject::tr("Ajout echoué.\n"
+                                                       "Click Cancel to exit."), QMessageBox::Cancel);
+                           }
+                        }
+
+
+                   }
+                   else
+                   {
+                       QMessageBox::warning(nullptr, QObject::tr("Ajouter client"),
+                                   QObject::tr("Ajout echoué ! Cases vides ! .\n"
+                                               "Click Cancel to exit."), QMessageBox::Cancel);
+                   }
+
+                   }
+
 
 void MainWindow::on_Modifier_clicked()
 {
 
-    QMessageBox msg;
-        int ID=ui->lineEdit_ID->text().toInt();
-             QString Nom=ui->lineEdit_nom->text();
-             QString Prenom=ui->lineEdit_prenom->text();
-             QString Courriel=ui->lineEdit_courriel->text();
-             int Num_tel=ui->lineEdit_numtelephone->text().toInt();
-             QString Date_n=ui->lineEdit_Date->text();
-             QString Adresse=ui->lineEdit_adresse->text();
-             QString Fonction=ui->lineEdit_fonction->text();
-             int Salaire=ui->lineEdit_salaire->text().toInt();
-             QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
-             QString Nationalite=ui->lineEdit_nationalite->text();
-        Employe E(ID,Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
-      bool test=E.modifier(ID);
+
+         int ID=ui->lineEdit_ID->text().toInt();
+         QString Nom=ui->lineEdit_nom->text();
+         QString Prenom=ui->lineEdit_prenom->text();
+         QString Courriel=ui->lineEdit_courriel->text();
+         int Num_tel=ui->lineEdit_numtelephone->text().toInt();
+         QString Date_n=ui->lineEdit_Date->text();
+         QString Adresse=ui->lineEdit_adresse->text();
+         QString Fonction=ui->lineEdit_fonction->text();
+         int Salaire=ui->lineEdit_salaire->text().toInt();
+         QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
+         QString Nationalite=ui->lineEdit_nationalite->text();
+
+QMessageBox msg;
+      bool test=E.modifier(ID,Nom, Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+
         if(test)
         {
-            msg.setText("Modification avec succès");
             ui->tableView->setModel(E.afficher());
+            msg.setText("Modification avec succès");
+
         }
         else
             msg.setText("Echec de modification");
@@ -185,6 +245,7 @@ void MainWindow::on_Supprimer_clicked()
        if(test)
           { msgBox.setText("Suppression avec succes.");
        ui->tableView->setModel(E.afficher());
+       ui->tableView_2->setModel(C.afficher_conge());
        ui->comboBox_emplo->clear();
        remplir_cb_employID();
        }
@@ -299,14 +360,15 @@ void MainWindow::on_Ajouter_conge_clicked()
     QString Type_conge=ui->lineEdit_typeconge->currentText();
 
     conge C(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge);
-
+QMessageBox MsgBox;
             bool test=C.ajouter_conge();
-            QMessageBox MsgBox;
+
 
              if (test)
              {
-                 MsgBox.setText("Ajout avec succès.");
                  ui->tableView_2->setModel(C.afficher_conge());
+                 MsgBox.setText("Ajout avec succès.");
+
              }
              else
              {
@@ -350,8 +412,10 @@ void MainWindow::on_Supprimer_conge_clicked()
        bool test=C1.supprimer_conge(C1.get_ID_conge());
        QMessageBox msgBox;
        if(test)
-          { msgBox.setText("Suppression avec succes.");
-       ui->tableView_2->setModel(C.afficher_conge());
+          {
+           ui->tableView_2->setModel(C.afficher_conge());
+           msgBox.setText("Suppression avec succes.");
+
        }
        else
            msgBox.setText("Echec de suppression");
@@ -479,12 +543,12 @@ void MainWindow::on_Quitter_2_clicked()
 void MainWindow::on_Rechercher_clicked()
 {
         Employe E;
-        if (ui->comboBox_recherche->currentText()=="ID")
+        if (ui->lineEdit_fonction->text()=="Fonction")
         {
-            int ID=ui->le_rech->text().toInt();
-            if (E.recherche_ID(ID))
+            QString Fonction=ui->le_rech->text();
+            if (E.recherche_Fonction(Fonction))
             {
-                ui->tableView->setModel(E.afficher_ID(ID));
+                ui->tableView->setModel(E.afficher_Fonction(Fonction));
             }
         }
         else if(ui->comboBox_recherche->currentText()=="Nom")

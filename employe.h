@@ -35,17 +35,17 @@ public:
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(int);
-    bool modifier(int);
+    bool modifier(int,QString,QString,QString,int,QString,QString,QString,int,QString,QString);
     QSqlQueryModel* rechercher(int,QString,QString);
     QSqlQueryModel* tri_nom();
     QSqlQueryModel* tri_prenom();
     QSqlQueryModel* tri_ID();
     bool recherche_prenom(QString prenom);
     bool recherche_nom(QString Nom);
-    bool recherche_ID(int ID);
+    bool recherche_Fonction(QString Fonction);
     QSqlQueryModel* afficher_nom(QString nom);
     QSqlQueryModel* afficher_prenom(QString prenom);
-    QSqlQueryModel* afficher_ID(int ID);
+    QSqlQueryModel* afficher_Fonction(QString Fonction);
 
     ~Employe(){}
 
