@@ -34,13 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     MRE=QRegExp("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
-    QPixmap pix7("C:/Users/Cyrine/Desktop/MyProject/ressource/usine.jpg");
-                 int w7 = ui->label_11->width();
-                 int h7 = ui->label_11->height();
-                 ui->label_11->setPixmap(pix7.scaled(w7,h7,Qt::IgnoreAspectRatio));
-                 int w8 = ui->label_18->width();
-                 int h8 = ui->label_18->height();
-                 ui->label_18->setPixmap(pix7.scaled(w8,h8,Qt::IgnoreAspectRatio));
+
 
     //controle de saisie:
     //QRegExp n("[a-zA-Z0-9_]*");

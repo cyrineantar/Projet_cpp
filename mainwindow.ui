@@ -262,7 +262,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Ajouter</string>
@@ -346,6 +347,11 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(98, 98, 98);
+
+</string>
+      </property>
       <property name="text">
        <string>Quitter</string>
       </property>
@@ -358,6 +364,10 @@
         <width>75</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>Imprimer</string>
@@ -385,7 +395,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Supprimer</string>
@@ -437,7 +448,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Rechercher</string>
@@ -488,6 +500,10 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
+      </property>
       <property name="text">
        <string>PDF</string>
       </property>
@@ -500,6 +516,10 @@
         <width>75</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>Modifier</string>
@@ -525,6 +545,9 @@
          <width>861</width>
          <height>161</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(185, 182, 177);</string>
        </property>
       </widget>
      </widget>
@@ -575,7 +598,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Tri</string>
@@ -590,6 +614,9 @@
         <width>931</width>
         <height>731</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(185, 182, 177);</string>
       </property>
       <property name="text">
        <string/>
@@ -687,7 +714,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Ajouter</string>
@@ -830,7 +858,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Supprimer</string>
@@ -870,7 +899,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(170, 0, 0);</string>
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>Modifier</string>
@@ -886,7 +916,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(170, 0, 0);</string>
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>PDF</string>
@@ -902,7 +933,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(170, 0, 0);</string>
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>Imprimer</string>
@@ -918,7 +950,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(170, 0, 0);</string>
+       <string notr="true">background-color: rgb(98, 98, 98);
+</string>
       </property>
       <property name="text">
        <string>Quitter</string>
@@ -947,6 +980,9 @@
          <width>861</width>
          <height>191</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(185, 182, 177);</string>
        </property>
       </widget>
      </widget>
@@ -1010,7 +1046,8 @@
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(170, 0, 0);</string>
+        <string notr="true">background-color: rgb(98, 98, 98);
+</string>
        </property>
        <property name="text">
         <string>Rechercher</string>
@@ -1025,6 +1062,9 @@
         <width>921</width>
         <height>731</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(185, 182, 177);</string>
       </property>
       <property name="text">
        <string/>
