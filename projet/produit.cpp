@@ -2,7 +2,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QMessageBox>
- 
+
 Produit::Produit()
 {
     Quantite=0;
@@ -72,10 +72,18 @@ Produit::Produit(int Quantite,double Prix,double Dimensions,double Poids,double 
 
       QSqlQuery query;
 
+     query.prepare("select * from produit where reference=:Reference");
+     query.bindValue(0, Reference);
+     query.exec();
+     if(query.exec() && query.next())
+     {
+
      query.prepare("delete from produit where reference=:Reference");
      query.bindValue(0, Reference);
-
      return query.exec();
+
+     }
+     return false;
 
 
  }

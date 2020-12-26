@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Darkeum.qss</file>
+        <file>Combinear.qss</file>
+    </qresource>
+    <qresource prefix="/sound">
+        <file>click.wav</file>
+    </qresource>
+</RCC>

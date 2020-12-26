@@ -32,9 +32,7 @@ MatierePremiere::MatierePremiere(QString reference,QString description,QString e
 QSqlQueryModel* MatierePremiere:: afficherMP()
 {
     QSqlQueryModel* model=new QSqlQueryModel();
-     model->setQuery("SELECT * from mp");
-
-
+     model->setQuery("SELECT * from mp ");
      return model;
 }
 
@@ -61,10 +59,16 @@ bool MatierePremiere::ajouterMP()
  bool MatierePremiere::supprimerMP(QString Reference)
  {
      QSqlQuery query;
+     query.prepare("SELECT * from mp where reference=:Reference");
+     query.bindValue(0, Reference);
+        query.exec();
+     if(query.exec() && query.next())
+     {
     query.prepare("delete from mp where reference=:Reference");
     query.bindValue(0, Reference);
-
     return query.exec();
+     }
+     else return false;
  }
 
  bool MatierePremiere::modifierMP()
