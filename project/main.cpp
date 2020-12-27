@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "mainwindowachat.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QDebug>
@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     Connexion c;
     bool test=c.ouvrirConnexion();
     MainWindow w;
+    MainWindowAchat m;
+
     QFile styleSheetFile(":/styleSheet/Integrid.qss");
              styleSheetFile.open(QFile::ReadOnly);
              QString styleSheet = QLatin1String(styleSheetFile.readAll());
@@ -18,7 +20,8 @@ int main(int argc, char *argv[])
          if(test)
          {
 
-             w.show();
+             //w.show();
+             m.show();
              QMessageBox::information(nullptr, QObject::tr("database is open"),
                          QObject::tr("connection successful.\n""Click Cancel to exit."), QMessageBox::Cancel);
 

@@ -1,5 +1,8 @@
 QT       += core gui sql
 QT       += multimedia
+QT       += serialport
+
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,19 +15,24 @@ QT += printsupport
 
 SOURCES += \
     achat.cpp \
+    arduino.cpp \
     connexion.cpp \
     fournisseur.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    mainwindowachat.cpp
 
 HEADERS += \
     achat.h \
+    arduino.h \
     connexion.h \
     fournisseur.h \
-    mainwindow.h
+    mainwindow.h \
+    mainwindowachat.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    mainwindowachat.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

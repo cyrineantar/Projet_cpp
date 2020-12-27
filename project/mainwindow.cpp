@@ -32,6 +32,7 @@
 #include<QtSql/QSqlQuery>
 #include<QVariant>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -42,8 +43,27 @@ MainWindow::MainWindow(QWidget *parent)
     ui->le_rib->setValidator(new QIntValidator(0, 9999999, this));
 
 ui->tabfournisseur->setModel(f.afficher());
-ui->tabachat->setModel(a.afficher());
+//ui->tabachat->setModel(a.afficher());
+QSqlQuery query;
+      /*  query.prepare("SELECT NOM FROM FOURNISSEUR");
+        if(query.exec())
+        {
 
+                while(query.next())
+                {
+                    ui->combo_fournisseur->addItem(query.value(0).toString());
+                }
+        }
+
+                query.prepare("SELECT nom FROM fournisseur");
+                if(query.exec())
+                {
+
+                        while(query.next())
+                        {
+                            ui->combo_fournisseur_2->addItem(query.value(0).toString());
+                        }
+                }*/
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +88,9 @@ fournisseur f(numero,rib,nom,matricule,produit,adresse,date);
  if(test)
    {  msgBox.setText("Ajout avec succes.");
      ui->tabfournisseur->setModel(f.afficher());
+     //ui->combo_fournisseur->addItem(nom);
+
+
  }
  else
      msgBox.setText("Echec d'ajout");
@@ -90,13 +113,13 @@ void MainWindow::on_pb_supprimer_clicked()
 
 }
 
-void MainWindow::on_pb_ajoutercommande_clicked()
+/*void MainWindow::on_pb_ajoutercommande_clicked()
 {    son->play();
     int num_commande =ui->le_numcommande->text().toInt();
     int quantite=ui->le_quantite->text().toInt();
 QString prix=ui->le_prix->text();
 QString description=ui->le_description->text();
-QString fournisseur=ui->le_fournisseur->text();
+QString fournisseur=ui->combo_fournisseur_2->currentText();
 QString date_achat=ui->le_dateachat->text();
 QString produit=ui->cb_produitcommande->currentText();
 
@@ -107,13 +130,16 @@ achat a(num_commande,quantite,prix,description,fournisseur,date_achat,produit);
  if(test)
    {  msgBox.setText("Ajout avec succes.");
      ui->tabachat->setModel(a.afficher());
+     ui->combo_fournisseur_2->addItem(fournisseur);
+
+
  }
  else
      msgBox.setText("Echec d'ajout");
      msgBox.exec();
 
 }
-
+*/
 void MainWindow::on_tabfournisseur_activated()
 {
 
@@ -186,7 +212,7 @@ void MainWindow::on_tabfournisseur_clicked(const QModelIndex &index)
 
 }
 
-void MainWindow::on_pb_supprimer_2_clicked()
+/*void MainWindow::on_pb_supprimer_2_clicked()
 {        son->play();
     achat a;
     achat a1;
@@ -194,26 +220,27 @@ void MainWindow::on_pb_supprimer_2_clicked()
     if(a1.supprimer(achatselect))
        { msgBox.setText("Suppression avec succes.");
     ui->tabachat->setModel(a.afficher());
+    //ui->combo_fournisseur->removeItem();
 
     }
     else
         msgBox.setText("Echec de suppression");
         msgBox.exec();
-}
+}*/
 
-void MainWindow::on_le_recherche_2_textChanged(const QString &arg1)
+/*void MainWindow::on_le_recherche_2_textChanged(const QString &arg1)
 {
     achat a;
        ui->tabachat->setModel(a.rechercher(ui->comboBox->currentText(),arg1));
-}
+}*/
 
-void MainWindow::on_tabachat_clicked(const QModelIndex &index)
+/*void MainWindow::on_tabachat_clicked(const QModelIndex &index)
 {
     achatselect=ui->tabachat->model()->data(index.sibling(index.row(),0)).toInt();
 
-}
+}*/
 
-void MainWindow::on_pb_modifier_5_clicked()
+/*void MainWindow::on_pb_modifier_5_clicked()
 {     son->play();
 
     QString prix, description, fournisseur,date_achat, produit;
@@ -222,7 +249,7 @@ void MainWindow::on_pb_modifier_5_clicked()
         quantite=ui->le_quantite_3->text().toInt();
         prix=ui->le_prix_3->text();
         description=ui->le_description_3->text();
-        fournisseur=ui->le_fournisseur_3->text();
+        fournisseur=ui->combo_fournisseur->currentText();
         date_achat=ui->le_dateachat_3->text();
         produit=ui->le_produitachat_3->text();
 
@@ -245,9 +272,9 @@ void MainWindow::on_pb_modifier_5_clicked()
             msgBox.exec();
 
 
-}
+}*/
 
-void MainWindow::on_tabachat_activated()
+/*void MainWindow::on_tabachat_activated()
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM achat WHERE num_commande=:val");
@@ -261,7 +288,7 @@ void MainWindow::on_tabachat_activated()
             ui->le_quantite_3->setText(query.value(1).toString());
             ui->le_prix_3->setText(query.value(2).toString());
             ui->le_description_3->setText(query.value(3).toString());
-            ui->le_fournisseur_3->setText(query.value(4).toString());
+            ui->combo_fournisseur->setCurrentText(query.value(4).toString());
             ui->le_dateachat_3->setText(query.value(5).toString());
             ui->le_produitachat_3->setText(query.value(6).toString());
         }
@@ -272,19 +299,19 @@ void MainWindow::on_tabachat_activated()
                 QMessageBox::critical(this,tr("error::"), query.lastError().text());
         }
 
-}
+}*/
 
-void MainWindow::on_tri_clicked()
+/*void MainWindow::on_tri_clicked()
 {     son->play();
     QString colone=ui->colone_tri->currentText();
         QString ordre=ui->ordre_tri->currentText();
         achat a;
         ui->tabachat->setModel(a.tri(colone,ordre));
 }
+*/
 
 
-
-void MainWindow::on_pushButton_clicked()
+/*void MainWindow::on_pushButton_clicked()
 {     son->play();
     QPrinter printer;
                    QPrintDialog *printDialog = new QPrintDialog(&printer, this);
@@ -292,9 +319,9 @@ void MainWindow::on_pushButton_clicked()
                    printDialog->exec();
 }
 
+*/
 
-
-void MainWindow::on_PDF_clicked()
+/*void MainWindow::on_PDF_clicked()
 {     son->play();
     QString strStream;
                                   QTextStream out(&strStream);
@@ -346,7 +373,7 @@ void MainWindow::on_PDF_clicked()
                               doc.setHtml(strStream);
                               doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
                               doc.print(&printer);
-}
+}*/
 
 void MainWindow::on_tri_fournisseur_clicked()
 {     son->play();
@@ -385,7 +412,7 @@ void MainWindow::on_pdf_clicked()
                                   // headers
                                   out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
                                   for (int column = 0; column < columnCount; column++)
-                                      if (!ui->tabachat->isColumnHidden(column))
+                                      if (!ui->tabfournisseur->isColumnHidden(column))
                                           out << QString("<th>%1</th>").arg(ui->tabfournisseur->model()->headerData(column, Qt::Horizontal).toString());
                                   out << "</tr></thead>\n";
 
