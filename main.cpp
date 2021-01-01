@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include "connection.h"
+#include <QFile>
 #include <QtTextToSpeech/QTextToSpeech>
 
 int main(int argc, char *argv[])
@@ -10,6 +11,12 @@ int main(int argc, char *argv[])
     Connection c;
     bool test=c.createconnect();
     MainWindow w;
+
+    QFile styleSheetFile(":/styleSheet/Integrid.qss");
+                 styleSheetFile.open(QFile::ReadOnly);
+                 QString styleSheet = QLatin1String(styleSheetFile.readAll());
+                 a.setStyleSheet(styleSheet);
+
     if(test)
     {
         w.show();
