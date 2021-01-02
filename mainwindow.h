@@ -2,13 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "employe.h"
-#include "conge.h"
-#include <QTableView>
-#include <QComboBox>
-#include <QSortFilterProxyModel>
-
-
+#include <QObject>
+#include "livraison.h"
+#include "vente.h"
+#include  <QSound>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -25,50 +22,53 @@ private slots:
 
    void on_Ajouter_clicked();
 
-   void on_Supprimer_clicked();
 
-   void on_Modifier_clicked();
-
-   void on_tableView_clicked(const QModelIndex &index);
-
-   void on_Rechercher_clicked();
-
-   void on_Tri_clicked();
-
-   void on_Pdf_clicked();
-
-   void on_Imprimer_clicked();
-
-   void on_Quitter_clicked();
-
-   void on_Ajouter_conge_clicked();
-
-   void on_tableView_2_clicked(const QModelIndex &index);
-
-   void remplir_cb_employID();
-
-   void on_Supprimer_conge_clicked();
-
-   void on_Tri_conge_clicked();
-
-   void on_Modifier_conge_clicked();
+  // void on_Afficher_clicked();
 
 
-   void on_Pdf_conge_clicked();
 
-   void on_Imprimer_conge_clicked();
+   //void on_tableView_activated(const QModelIndex &index);
 
-   void on_Quitter_2_clicked();
+   //void on_tableView_doubleClicked(const QModelIndex &index);
 
-   void on_Rechercher_2_clicked();
+   //void on_modifier_clicked();
 
+   void on_le_recherche_textChanged(const QString &arg1);
+
+   void on_supprimer_clicked();
+
+   void on_modifier_2_clicked();
+
+   void on_button_tri_clicked();
+
+   void on_imprimer_clicked();
+
+   void on_PDF_clicked();
+
+   void on_tabWidget_2_tabBarClicked(int index);
+
+   void on_ajouter1_clicked();
+
+   void on_affichage2_tabBarClicked(int index);
+
+   void on_le_recherche_2_textChanged(const QString &arg1);
+
+   void on_button_tri_2_clicked();
+
+   void on_supprimer_2_clicked();
+
+   void on_imprimer_2_clicked();
+
+   void on_PDF_2_clicked();
+
+   void on_modifier3_clicked();
+
+   void on_cb_recherche_2_editTextChanged(const QString &arg1);
 
 private:
    Ui::MainWindow *ui;
-   Employe E;
-   conge C;
-
-
+   livraison L ;
+   vente v;
+   QSound *son;
 };
 #endif // MAINWINDOW_H
-

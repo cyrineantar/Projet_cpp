@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "employe.h"
+#include "livraison.h"
+#include "vente.h"
 #include <QMessageBox>
 #include <QIntValidator>
 #include <QSqlQuery>
@@ -25,58 +26,22 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QtSql/QSqlQuery>
 #include <QVariant>
-#include <QString>
+#include <QtPrintSupport/QPrintDialog>
+#include<QtPrintSupport/QPrinter>
 
-
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent):
+     QMainWindow(parent),
+     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-
-
-    //controle de saisie:
-    QRegExp n("[a-zA-Z0-9_]*");
-    QValidator *validator =new QRegExpValidator(n, this);
-    ui->lineEdit_ID->setValidator(new QIntValidator(0, 9999999, this));
-    ui->lineEdit_salaire->setValidator(new QIntValidator(0, 99999999, this));
-    ui->lineEdit_numtelephone->setValidator(new QIntValidator(0, 99999999, this));
-    ui->lineEdit_id_conge->setValidator(new QIntValidator(0, 9999999, this));
-    ui->lineEdit_nom->setValidator(validator);
-    ui->lineEdit_prenom->setValidator(validator);
-    ui->lineEdit_courriel->setValidator(validator);
-    ui->lineEdit_adresse->setValidator(validator);
-    ui->lineEdit_fonction->setValidator(validator);
-    ui->lineEdit_nationalite->setValidator(validator);
-
-    ui->tableView->setModel(E.afficher());
-    ui->tableView_2->setModel(C.afficher_conge());
-    remplir_cb_employID();
-
+    son=new QSound(":/sons/mouse.wav");
+    ui->num_com->setValidator(new QIntValidator(0, 9999999, this));
+    ui->num_vente->setValidator(new QIntValidator(0, 9999999, this));
+    ui->tableView->setModel(L.afficher());
+    ui->tableView_2->setModel(v.afficher1());
 
 
 }
-
-
-void MainWindow::remplir_cb_employID()
-{
-
-    QSqlQuery qry;
-    qry.prepare("SELECT id FROM EMPLOYE");
-
-    if(qry.exec())
-    {
-        while(qry.next())
-        {
-            ui->comboBox_emplo->addItem(qry.value(0).toString());
-
-        }
-    }
-
-
-}
-
 
 MainWindow::~MainWindow()
 {
@@ -84,441 +49,349 @@ MainWindow::~MainWindow()
 }
 
 
-
 void MainWindow::on_Ajouter_clicked()
+{     son->play();
+      int num_com=ui->num_com->text().toInt();
+      QString produit=ui->produit->text();
+      int quantite=ui->quantite->text().toInt();
+      QString livreur=ui->livreur->text();
+      int total=ui->total->text().toInt();
+      QString date_arrivee=ui->date_arrivee->text();
+
+livraison L(num_com,produit,quantite,livreur,total,date_arrivee);
+
+ bool test=L.ajouter();
+ QMessageBox msgBox;
+
+ if(test)
+   {  msgBox.setText("Ajout avec succes.");
+     ui->tableView->setModel(L.afficher());
+   }
+ else
 {
+     msgBox.setText("Echec d'ajout");
+     msgBox.exec();
 
-      int ID=ui->lineEdit_ID->text().toInt();
-      QString Nom=ui->lineEdit_nom->text();
-      QString Prenom=ui->lineEdit_prenom->text();
-      QString Courriel=ui->lineEdit_courriel->text();
-      int Num_tel=ui->lineEdit_numtelephone->text().toInt();
-      QString Date_n=ui->lineEdit_Date->text();
-      QString Adresse=ui->lineEdit_adresse->text();
-      QString Fonction=ui->lineEdit_fonction->text();
-      int Salaire=ui->lineEdit_salaire->text().toInt();
-      QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
-      QString Nationalite=ui->lineEdit_nationalite->text();
-
-      Employe E(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
-
-              bool test=E.ajouter();
-              QMessageBox msgBox;
-
-               if (test)
-               {
-                   msgBox.setText("Ajout avec succès.");
-                   ui->tableView->setModel(E.afficher());
-                   ui->comboBox_emplo->clear();
-                   remplir_cb_employID();
-               }
-               else
-               {
-                   msgBox.setText("échec au niveau de l ajout");
-               }
-                   msgBox.exec();
+}
 }
 
-void MainWindow::on_Modifier_clicked()
+
+void MainWindow::on_le_recherche_textChanged(const QString &arg1)
 {
-        int ID=ui->lineEdit_ID->text().toInt();
-        QString Nom=ui->lineEdit_nom->text();
-        QString Prenom=ui->lineEdit_prenom->text();
-        QString Courriel=ui->lineEdit_courriel->text();
-        int Num_tel=ui->lineEdit_numtelephone->text().toInt();
-        QString Date_n=ui->lineEdit_Date->text();
-        QString Adresse=ui->lineEdit_adresse->text();
-        QString Fonction=ui->lineEdit_fonction->text();
-        int Salaire=ui->lineEdit_salaire->text().toInt();
-        QString Etat_civil=ui->lineEdit_Etatcivil->currentText();
-        QString Nationalite=ui->lineEdit_nationalite->text();
-          QMessageBox msg;
-
-        bool test=E.modifier(ID,Nom,Prenom,Courriel,Num_tel,Date_n,Adresse,Fonction,Salaire,Etat_civil,Nationalite);
+    livraison L;
+        ui->tableView->setModel(L.rechercher(ui->cb_recherche->currentText(),arg1));
+}
 
 
-        if(test)
-        {
-            ui->lineEdit_ID->clear();
-            ui->lineEdit_nom->clear();
-            ui->lineEdit_prenom->clear();
-            ui->lineEdit_courriel->clear();
-            ui->lineEdit_numtelephone->clear();
-            ui->lineEdit_adresse->clear();
-            ui->lineEdit_fonction->clear();
-            ui->lineEdit_salaire->clear();
-            ui->lineEdit_nationalite->clear();
 
-            ui->tableView->setModel(E.afficher());
-            msg.setText("Modification avec succès");
+void MainWindow::on_supprimer_clicked()
+{   son->play();
+    int num_com =ui->le_supprimer->text().toInt();
+         livraison L;
+         L.setnum_com(num_com);
+         QMessageBox msg;
+         if(L.supprimer())
+         {
+             msg.setText("suppression avec succés");
+             ui->tableView->setModel(L.afficher());
 
          }
-        else
-        {
-            msg.setText("Echec de modification");
-        }
-        msg.exec();
+         else
+         {
+             msg.setText("echec de suppression");
+         }
+         msg.exec();
 }
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
-{
+void MainWindow::on_modifier_2_clicked()
+{   son->play();
+    int num_com,quantite,total;
+   QString produit,livreur,date_arrivee;
 
-    QString val=ui->tableView->model()->data(index).toString();
-    QSqlQuery qry;
-        qry.prepare("select * from EMPLOYE where ID=:val");
-        qry.bindValue(":val",val);
+   num_com=ui->num_com_2->text().toInt();
+   produit=ui->produit_2->text();
+   quantite=ui->quantite_2->text().toInt();
+   livreur=ui->livreur_2->text();
+   total=ui->total_2->text().toInt();
+   date_arrivee=ui->date_arrivee_2->text();
 
-        if(qry.exec())
-        {
-            while(qry.next())
-            {
-                ui->lineEdit_ID->setText(qry.value(0).toString());
-                ui->lineEdit_nom->setText(qry.value(1).toString());
-                ui->lineEdit_prenom->setText(qry.value(2).toString());
-                ui->lineEdit_courriel->setText(qry.value(3).toString());
-                ui->lineEdit_numtelephone->setText(qry.value(4).toString());
-                ui->lineEdit_Date->setDate(QDate::fromString(qry.value(5).toString()));
-                ui->lineEdit_adresse->setText(qry.value(6).toString());
-                ui->lineEdit_fonction->setText(qry.value(7).toString());
-                ui->lineEdit_salaire->setText(qry.value(8).toString());
-                ui->lineEdit_Etatcivil->setCurrentText(qry.value(9).toString());
-                ui->lineEdit_nationalite->setText(qry.value(10).toString());
+   livraison L(num_com,produit,quantite,livreur,total,date_arrivee);
 
+   QMessageBox msgBox;
+       if (L.modifier())
+       {
 
-            }
-        }
-}
-void MainWindow::on_Supprimer_clicked()
-{
-    Employe E1;
-    E1.setID(ui->le_id_suppr->text().toInt());
-       bool test=E1.supprimer(E1.get_ID());
-       QMessageBox msgBox;
-       if(test)
-          { msgBox.setText("Suppression avec succes.");
-       ui->tableView->setModel(E.afficher());
-       ui->comboBox_emplo->clear();
-       remplir_cb_employID();
+             msgBox.setText("Le Document a été modifié.");
+
+             ui->tableView->setModel(L.afficher());
+
        }
+
        else
-           msgBox.setText("Echec de suppression");
-           msgBox.exec();
+       {
+           msgBox.setText("échec de modification.");
+       }
+       msgBox.exec();
+
 }
 
-
-
-
-
-void MainWindow::on_Tri_clicked()
-{
-    Employe E;
-    if (ui->comboBox_tri->currentText()=="ID")
-    {
-        ui->tableView->setModel(E.tri_ID());
-    }
-    else if (ui->comboBox_tri->currentText()=="Nom")
-    {
-        ui->tableView->setModel(E.tri_nom());
-    }
-    else
-    {
-        ui->tableView->setModel(E.tri_prenom());
-    }
+void MainWindow::on_button_tri_clicked()
+{    son->play();
+    QString colone=ui->colone_tri->currentText();
+        QString ordre=ui->ordre_tri->currentText();
+        livraison L;
+        ui->tableView->setModel(L.tri(colone,ordre));
 }
 
-
-
-void MainWindow::on_Pdf_clicked()
-{
-    QString strStream;
-                 QTextStream out(&strStream);
-
-                 const int rowCount = ui->tableView->model()->rowCount();
-                 const int columnCount = ui->tableView->model()->columnCount();
-
-                 out <<  "<html>\n"
-                     "<head>\n"
-                     "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                     <<  QString("<title>%1</title>\n").arg("strTitle")
-                     <<  "</head>\n"
-                     "<body bgcolor=#ffffff link=#5000A0>\n"
-
-                    //     "<align='right'> " << datefich << "</align>"
-                     "<center> <H1>Liste des employes </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
-
-                 // headers
-                 out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
-                 for (int column = 0; column < columnCount; column++)
-                     if (!ui->tableView->isColumnHidden(column))
-                         out << QString("<th>%1</th>").arg(ui->tableView->model()->headerData(column, Qt::Horizontal).toString());
-                 out << "</tr></thead>\n";
-
-                 // data table
-                 for (int row = 0; row < rowCount; row++) {
-                     out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
-                     for (int column = 0; column < columnCount; column++) {
-                         if (!ui->tableView->isColumnHidden(column)) {
-                             QString data = ui->tableView->model()->data(ui->tableView->model()->index(row, column)).toString().simplified();
-                             out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                         }
-                     }
-                     out << "</tr>\n";
-                 }
-                 out <<  "</table> </center>\n"
-                     "</body>\n"
-                     "</html>\n";
-
-           QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
-             if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-
-            QPrinter printer (QPrinter::PrinterResolution);
-             printer.setOutputFormat(QPrinter::PdfFormat);
-            printer.setPaperSize(QPrinter::A4);
-           printer.setOutputFileName(fileName);
-
-            QTextDocument doc;
-             doc.setHtml(strStream);
-             doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
-             doc.print(&printer);
-}
-
-void MainWindow::on_Imprimer_clicked()
-{
+void MainWindow::on_imprimer_clicked()
+{    son->play();
     QPrinter printer;
-
-    printer.setPrinterName("desiered printer name");
-
-  QPrintDialog dialog(&printer,this);
-
-    if(dialog.exec()== QDialog::Rejected)
-
-        return;
+                QPrintDialog *printDialog = new QPrintDialog(&printer, this);
+                printDialog->setWindowTitle("Imprimer Document");
+                printDialog->exec();
 }
 
-void MainWindow::on_Quitter_clicked()
-{
-    close();
+void MainWindow::on_PDF_clicked()
+{    son->play();
+    QString strStream;
+                                QTextStream out(&strStream);
+
+                                const int rowCount = ui->tableView->model()->rowCount();
+                                const int columnCount = ui->tableView->model()->columnCount();
+
+                                out <<  "<html>\n"
+                                    "<head>\n"
+                                    "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                                    <<  QString("<title>%1</title>\n").arg("strTitle")
+                                    <<  "</head>\n"
+                                    "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                                   //     "<align='right'> " << datefich << "</align>"
+                                    "<center> <H1> LISTE DE LIVRAISON </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                                // headers
+                                out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                                for (int column = 0; column < columnCount; column++)
+                                    if (!ui->tableView->isColumnHidden(column))
+                                        out << QString("<th>%1</th>").arg(ui->tableView->model()->headerData(column, Qt::Horizontal).toString());
+                                out << "</tr></thead>\n";
+
+                                // data table
+                                for (int row = 0; row < rowCount; row++) {
+                                    out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                    for (int column = 0; column < columnCount; column++) {
+                                        if (!ui->tableView->isColumnHidden(column)) {
+                                            QString data = ui->tableView->model()->data(ui->tableView->model()->index(row, column)).toString().simplified();
+                                            out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                        }
+                                    }
+                                    out << "</tr>\n";
+                                }
+                                out <<  "</table> </center>\n"
+                                    "</body>\n"
+                                    "</html>\n";
+
+                          QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                            if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                           QPrinter printer (QPrinter::PrinterResolution);
+                            printer.setOutputFormat(QPrinter::PdfFormat);
+                           printer.setPaperSize(QPrinter::A4);
+                          printer.setOutputFileName(fileName);
+
+                           QTextDocument doc;
+                            doc.setHtml(strStream);
+                            doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+                            doc.print(&printer);
 }
 
 
-void MainWindow::on_Ajouter_conge_clicked()
+
+
+
+void MainWindow::on_tabWidget_2_tabBarClicked(int index)
 {
-    int ID_conge=ui->lineEdit_id_conge->text().toInt();
-    int ID=ui->comboBox_emplo->currentText().toInt();
-    QString Date_debut=ui->lineEdit_datedebut->text();
-    QString Date_fin=ui->lineEdit_datefin->text();
-    QString Motif=ui->lineEdit_motif->text();
-    QString Type_conge=ui->lineEdit_typeconge->currentText();
+    if (index==1)
+         ui->tableView->setModel(L.afficher());
 
-    conge C(ID_conge, ID, Date_debut, Date_fin, Motif, Type_conge);
-
-            bool test=C.ajouter_conge();
-            QMessageBox MsgBox;
-
-             if (test)
-             {
-                 MsgBox.setText("Ajout avec succès.");
-                 ui->tableView_2->setModel(C.afficher_conge());
-             }
-             else
-             {
-                 MsgBox.setText("échec au niveau de l ajout");
-             }
-                 MsgBox.exec();
 }
 
-void MainWindow::on_tableView_2_clicked(const QModelIndex &index)
-{
-    QString val=ui->tableView_2->model()->data(index).toString();
-    QSqlQuery qry;
-        qry.prepare("Select * from CONGE where ID_conge=:val  " );
 
-        if(qry.exec())
-        {
-            while(qry.next())
-            {
-                ui->lineEdit_id_conge->setText(qry.value(0).toString());
-                int i=0;
-                ui->comboBox_emplo->setCurrentIndex(0);
-                while(qry.value(1).toString()!= ui->comboBox_emplo->currentText())
-                {
-                    i++;
-                    ui->comboBox_emplo->setCurrentIndex(i);
 
-                }
-                ui->lineEdit_datedebut-> setDate(QDate::fromString(qry.value(2).toString(),"dd/MM/yyyy"));
-                ui->lineEdit_datefin->setDate(QDate::fromString(qry.value(3).toString(),"dd/MM/yyyy"));
-                ui->lineEdit_motif->setText(qry.value(4).toString());
-                ui->lineEdit_typeconge->setCurrentText(qry.value(5).toString());
+    void MainWindow::on_ajouter1_clicked()
+    {
+           son->play();
+          int num_vente=ui->num_vente->text().toInt();
+          QString prod=ui->nom_pro->text();
+          int quant=ui->laquantite->text().toInt();
+          int id=ui->ID->text().toInt();
+          int tot=ui->le_total->text().toInt();
+          QString date_arr=ui->la_date->text();
 
-            }
-        }
-}
+   vente V(num_vente,prod,quant,id,tot,date_arr);
 
-void MainWindow::on_Supprimer_conge_clicked()
-{
-    conge C1;
-    C1.setID_conge(ui->le_id_conge_suppr->text().toInt());
-       bool test=C1.supprimer_conge(C1.get_ID_conge());
-       QMessageBox msgBox;
-       if(test)
-          { msgBox.setText("Suppression avec succes.");
-       ui->tableView_2->setModel(C.afficher_conge());
-       }
-       else
-           msgBox.setText("Echec de suppression");
-           msgBox.exec();
-}
+     bool test=V.ajouter1();
+     QMessageBox msgBox;
 
-void MainWindow::on_Tri_conge_clicked()
-{
-    QMessageBox msgBox ;
-
-    QSqlQueryModel *model = new QSqlQueryModel();
-             model->setQuery("SELECT * FROM CONGE order by ID_conge ASC");
-             model->setQuery("SELECT * FROM CONGE order by ID ASC");
-             model->setQuery("SELECT * FROM CONGE order by Type_conge ASC");
-             model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID_conge"));
-             model->setHeaderData(1, Qt::Horizontal, QObject::tr("ID"));
-             model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date_debut"));
-             model->setHeaderData(3, Qt::Horizontal, QObject::tr("Date_fin"));
-             model->setHeaderData(4, Qt::Horizontal, QObject::tr("Motif"));
-             model->setHeaderData(5, Qt::Horizontal, QObject::tr("Type_conge"));
-
-             ui->tableView_2->setModel(model);
-             ui->tableView_2->show();
-             msgBox.setText("Tri avec succès.");
-             msgBox.exec();
-}
-
-void MainWindow::on_Modifier_conge_clicked()
-{
-    int ID_conge=ui->lineEdit_id_conge->text().toInt();
-    int ID_employe=ui->comboBox_emplo->currentText().toInt();
-    QString Date_debut=ui->lineEdit_datedebut->text();
-    QString Date_fin=ui->lineEdit_datefin->text();
-    QString Motif=ui->lineEdit_motif->text();
-    QString Type_conge=ui->lineEdit_typeconge->currentText();
-
-    bool test=C.modifier_conge(ID_conge,ID_employe,Date_debut,Date_fin,Motif,Type_conge);
-    QMessageBox msgBox;
     if(test)
+     {
+        msgBox.setText("Ajout avec succes.");
+        ui->tableView_2->setModel(V.afficher1());
+
+     }
+     else
     {
-         ui->tableView_2->setModel(C.afficher_conge());
-        msgBox.setText("Modification réussite");
+   msgBox.setText("Echec d'ajout");
+   msgBox.exec();
+
+}
+
+}
+
+
+
+void MainWindow::on_le_recherche_2_textChanged(const QString &arg1)
+{
+   vente V;
+        ui->tableView_2->setModel(V.rechercher1(ui->cb_recherche_2->currentText(),arg1));
+}
+
+
+
+
+void MainWindow::on_button_tri_2_clicked()
+{      son->play();
+        QString colone=ui->colone_tri_2->currentText();
+        QString ordre=ui->ordre_tri_2->currentText();
+          vente V;
+           ui->tableView_2->setModel(V.tri1(colone,ordre));
+}
+
+
+
+void MainWindow::on_supprimer_2_clicked()
+{      son->play();
+     int num_vente =ui->le_supprimer_2->text().toInt();
+      vente V;
+     V.setnum_vente(num_vente);
+    QMessageBox msg;
+    if(V.supprimer1())
+    {
+        msg.setText("suppression avec succés");
+        ui->tableView_2->setModel(V.afficher1());
+
     }
     else
     {
-        msgBox.setText("Erreur de modification");
+        msg.setText("echec de suppression");
     }
-    msgBox.exec();
-}
-
-void MainWindow::on_Pdf_conge_clicked()
-{
-    QString strStream;
-                 QTextStream out(&strStream);
-
-                 const int rowCount = ui->tableView_2->model()->rowCount();
-                 const int columnCount = ui->tableView_2->model()->columnCount();
-
-                 out <<  "<html>\n"
-                     "<head>\n"
-                     "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                     <<  QString("<title>%1</title>\n").arg("strTitle")
-                     <<  "</head>\n"
-                     "<body bgcolor=#ffffff link=#5000A0>\n"
-
-                    //     "<align='right'> " << datefich << "</align>"
-                     "<center> <H1>Liste des conges </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
-
-                 // headers
-                 out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
-                 for (int column = 0; column < columnCount; column++)
-                     if (!ui->tableView_2->isColumnHidden(column))
-                         out << QString("<th>%1</th>").arg(ui->tableView_2->model()->headerData(column, Qt::Horizontal).toString());
-                 out << "</tr></thead>\n";
-
-                 // data table
-                 for (int row = 0; row < rowCount; row++) {
-                     out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
-                     for (int column = 0; column < columnCount; column++) {
-                         if (!ui->tableView_2->isColumnHidden(column)) {
-                             QString data = ui->tableView_2->model()->data(ui->tableView_2->model()->index(row, column)).toString().simplified();
-                             out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                         }
-                     }
-                     out << "</tr>\n";
-                 }
-                 out <<  "</table> </center>\n"
-                     "</body>\n"
-                     "</html>\n";
-
-           QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
-             if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-
-            QPrinter printer (QPrinter::PrinterResolution);
-             printer.setOutputFormat(QPrinter::PdfFormat);
-            printer.setPaperSize(QPrinter::A4);
-           printer.setOutputFileName(fileName);
-
-            QTextDocument doc;
-             doc.setHtml(strStream);
-             doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
-             doc.print(&printer);
+    msg.exec();
 
 }
 
-void MainWindow::on_Imprimer_conge_clicked()
-{
+void MainWindow::on_imprimer_2_clicked()
+{    son->play();
     QPrinter printer;
-
-    printer.setPrinterName("desiered printer name");
-
-  QPrintDialog dialog(&printer,this);
-
-    if(dialog.exec()== QDialog::Rejected)
-
-        return;
-}
-
-void MainWindow::on_Quitter_2_clicked()
-{
-    close();
-}
-
-void MainWindow::on_Rechercher_2_clicked()
-{
+                QPrintDialog *printDialog = new QPrintDialog(&printer, this);
+                printDialog->setWindowTitle("Imprimer Document");
+                printDialog->exec();
 
 }
 
-void MainWindow::on_Rechercher_clicked()
+void MainWindow::on_PDF_2_clicked()
+{    son->play();
+    QString strStream;
+                                QTextStream out(&strStream);
+
+                                const int rowCount = ui->tableView_2->model()->rowCount();
+                                const int columnCount = ui->tableView_2->model()->columnCount();
+
+                                out <<  "<html>\n"
+                                    "<head>\n"
+                                    "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                                    <<  QString("<title>%1</title>\n").arg("strTitle")
+                                    <<  "</head>\n"
+                                    "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                                   //     "<align='right'> " << datefich << "</align>"
+                                    "<center> <H1> LISTE DE LIVRAISON </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                                // headers
+                                out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                                for (int column = 0; column < columnCount; column++)
+                                    if (!ui->tableView_2->isColumnHidden(column))
+                                        out << QString("<th>%1</th>").arg(ui->tableView_2->model()->headerData(column, Qt::Horizontal).toString());
+                                out << "</tr></thead>\n";
+
+                                // data table
+                                for (int row = 0; row < rowCount; row++) {
+                                    out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                    for (int column = 0; column < columnCount; column++) {
+                                        if (!ui->tableView_2->isColumnHidden(column)) {
+                                            QString data = ui->tableView_2->model()->data(ui->tableView_2->model()->index(row, column)).toString().simplified();
+                                            out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                        }
+                                    }
+                                    out << "</tr>\n";
+                                }
+                                out <<  "</table> </center>\n"
+                                    "</body>\n"
+                                    "</html>\n";
+
+                          QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                            if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                           QPrinter printer (QPrinter::PrinterResolution);
+                            printer.setOutputFormat(QPrinter::PdfFormat);
+                           printer.setPaperSize(QPrinter::A4);
+                          printer.setOutputFileName(fileName);
+
+                           QTextDocument doc;
+                            doc.setHtml(strStream);
+                            doc.setPageSize(printer.pageRect().size());
+                            doc.print(&printer);
+}
+
+void MainWindow::on_modifier3_clicked()
 {
-        Employe E;
-        if (ui->comboBox_recherche->currentText()=="ID")
+    son->play();
+    int num_vente,quant,id,tot;
+    QString prod,date_arr;
+
+    num_vente=ui->numventemodif->text().toInt();
+    prod=ui->prod_modif->text();
+    quant=ui->quantmodif->text().toInt();
+    id=ui->idmodif->text().toInt();
+    tot=ui->totmodif->text().toInt();
+    date_arr=ui->datemodif->text();
+
+    vente V(num_vente,prod,quant,id,tot,date_arr);
+
+    QMessageBox msgBox;
+        if (V.modifier1())
         {
-            int ID=ui->le_rech->text().toInt();
-            if (E.recherche_ID(ID))
-            {
-                ui->tableView->setModel(E.afficher_ID(ID));
-            }
-        }
-        else if(ui->comboBox_recherche->currentText()=="Nom")
-        {
-            QString nom=ui->le_rech->text();
-            if (E.recherche_nom(nom))
-            {
-                ui->tableView->setModel(E.afficher_nom(nom));
-            }
+
+              msgBox.setText("Le Document a été modifié.");
+
+              ui->tableView_2->setModel(V.afficher1());
 
         }
+
         else
         {
-            QString prenom=ui->le_rech->text();
-            if(E.recherche_prenom(prenom))
-            {
-                ui->tableView->setModel(E.afficher_prenom(prenom));
-            }
+            msgBox.setText("échec de modification.");
         }
-    }
+        msgBox.exec();
+
+
+}
+
+
+
+void MainWindow::on_affichage2_tabBarClicked(int index)
+{ vente V;
+    if (index==1)
+          ui->tableView_2->setModel(V.afficher1());
+}
+
 
