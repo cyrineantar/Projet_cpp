@@ -2,13 +2,32 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "employe.h"
-#include "conge.h"
-#include <QTableView>
-#include <QComboBox>
 #include <QSortFilterProxyModel>
-#include <QRegularExpression>
-
+#include "client.h"
+#include "cartefidelite.h"
+#include <iostream>
+#include <QDebug>
+#include <QRadioButton>
+#include <QtPrintSupport/QPrinter>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QTextDocument>
+#include <QTextEdit>
+#include <QtSql/QSqlQueryModel>
+#include <QtPrintSupport/QPrinter>
+#include <QVector2D>
+#include <QVector>
+#include <QSqlQuery>
+#include <QDesktopServices>
+#include <QMessageBox>
+#include <QUrl>
+#include <QPixmap>
+#include <QTabWidget>
+#include <QValidator>
+#include <QPrintDialog>
+#include<QtSql/QSqlQuery>
+#include<QVariant>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,60 +35,64 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-   MainWindow(QWidget *parent = nullptr);
-   ~MainWindow();
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+    void afficher_tabClient();
+    void afficher_tab_carteFid();
 
 private slots:
+    void on_button_ajouterClient_clicked();
 
-   void on_Ajouter_clicked();
+    void on_validerAjout_accepted();
 
-   void on_Supprimer_clicked();
+    void on_lineEdit_textChanged(const QString &arg1);
 
-   void on_Modifier_clicked();
+    void on_validerModif_accepted();
 
-   void on_tableView_clicked(const QModelIndex &index);
+    void on_tabClient_clicked(const QModelIndex &index);
 
-   void on_Rechercher_clicked();
+    void on_tabClient_activated();
 
-   void on_Tri_clicked();
+    void on_validerAjout_rejected();
 
-   void on_Pdf_clicked();
+    void on_validerModif_rejected();
 
-   void on_Imprimer_clicked();
+    void on_button_supprimerClient_clicked();
 
-   void on_Quitter_clicked();
+    void on_button_ajouter_carteFid_clicked();
 
-   void on_Ajouter_conge_clicked();
-
-   void on_tableView_2_clicked(const QModelIndex &index);
-
-   void remplir_cb_employID();
-
-   void on_Supprimer_conge_clicked();
-
-   void on_Tri_conge_clicked();
-
-   void on_Modifier_conge_clicked();
+    void on_validerAjout_cf_accepted();
 
 
-   void on_Pdf_conge_clicked();
+    void on_le_recherche_carteFid_textChanged(const QString &arg1);
 
-   void on_Imprimer_conge_clicked();
+    void on_tabCarteFid_clicked(const QModelIndex &index);
 
-   void on_Quitter_2_clicked();
+    void on_tabCarteFid_activated();
 
-   void on_Rechercher_conge_clicked();
+    void on_button_supprimer_carteFid_clicked();
+
+    void on_validerAjout_cf_rejected();
+
+    void on_validerModif_cf_rejected();
+
+
+    void on_validerModif_cf_accepted();
+
+    void on_Button_pdf_clicked();
 
 private:
-   Ui::MainWindow *ui;
-   Employe E;
-   conge C;
-   QRegExp MRE ;
-
+    Ui::MainWindow *ui;
+    Client c;
+    QString clientSelectionne;
+    QSortFilterProxyModel *proxy;
+    QSortFilterProxyModel *proxy_carteFid;
+    CarteFidelite carte;
+    int carteSelectionne;
 
 };
 #endif // MAINWINDOW_H
-
