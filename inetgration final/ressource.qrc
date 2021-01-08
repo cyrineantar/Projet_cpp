@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Darkeum.qss</file>
+        <file>Combinear.qss</file>
+        <file>logo.png</file>
+        <file>fournisseur.png</file>
+        <file>img frn.png</file>
+    </qresource>
+    <qresource prefix="/sound">
+        <file>click.wav</file>
+    </qresource>
+</RCC>

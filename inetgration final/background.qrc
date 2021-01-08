@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/back">
+        <file>logo.png</file>
+        <file>img frn.png</file>
+    </qresource>
+</RCC>
